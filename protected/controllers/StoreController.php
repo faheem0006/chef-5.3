@@ -1256,7 +1256,6 @@ class StoreController extends CController
 
 	public function actionPaymentOption()
 	{
-
 		unset($_SESSION['confirm_order_data']);
 
 		/*POINTS PROGRAM*/

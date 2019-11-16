@@ -1,17 +1,14 @@
-<?php
-$this->renderPartial('/front/default-header',array(
-   'h1'=>t("Payment Option"),
-   'sub_text'=>t("choose your payment")
-));?>
-
+<div id="navbar-offset"></div>
 <?php 
 
-$_SESSION['kr_merchant_id'] = 1;
+// if( !isset($_SESSION['kr_merchant_id']) ){
+// 	$_SESSION['kr_merchant_id'] = $_GET['id'];
+// }
 
 $s=$_SESSION;
 $continue=true;
 
-$merchant_address='';		
+$merchant_address='';	
 if ($merchant_info=Yii::app()->functions->getMerchant($s['kr_merchant_id'])){	
 	$merchant_address=$merchant_info['street']." ".$merchant_info['city']." ".$merchant_info['state'];
 	$merchant_address.=" "	. $merchant_info['post_code'];

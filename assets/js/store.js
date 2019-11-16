@@ -1024,6 +1024,8 @@ jQuery(document).ready(function() {
    
    $( document ).on( "click", ".add_to_cart", function() {   	   
 	
+		
+		//if( $('.item_order') )
 	
    	   /*var cooking_ref=$("#cooking_ref:checked").length;
    	   if ( cooking_ref<=0){

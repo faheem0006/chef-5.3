@@ -2869,6 +2869,7 @@ if (!class_exists('AjaxAdmin')) {
 							//
 							else 
 							{
+								die("Ok");
 							if (!isset($_SESSION['kr_item'])) {
 								$_SESSION['kr_item'] = array();
 							}
