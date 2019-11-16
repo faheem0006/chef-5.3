@@ -207,7 +207,7 @@ class MerchantController extends CController
 		);
 
 		$cs->registerCssFile(
-			Yii::app()->request->baseUrl . '/assets/css/custom.css',
+			Yii::app()->request->baseUrl . '/assets/css/custom.css'
 		);
 	}
 
