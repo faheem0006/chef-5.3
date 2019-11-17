@@ -205,10 +205,10 @@
             <h4 class="text-light"><?php echo t("Join the largest marketplace for homemade meals online.") ?></h4>
             <br />
             <?php if (Yii::app()->functions->hasMerchantAccess("DashBoard")) : ?>
-                <a href="<?php echo baseUrl() . '/merchant/dashboard' ?>" class="btnn btn--raised waves-effect waves-light"><?php echo t("click to edit profile") ?></a>
+                <a href="<?php echo websiteUrl() . '/merchant/dashboard' ?>" class="btnn btn--raised waves-effect waves-light"><?php echo t("click to edit profile") ?></a>
             <?php else : ?>
-                <a href="<?php echo baseUrl() . '/store/merchantsignup' ?>" class="btnn btn--raised waves-effect waves-light"><?php echo t("click to sign up") ?></a>
-                <a href="<?php echo baseUrl() . '/merchant/login' ?>" class="btnn btn--raised waves-effect waves-light"><?php echo t("login") ?></a>
+                <a href="<?php echo websiteUrl() . '/store/merchantsignup' ?>" class="btnn btn--raised waves-effect waves-light"><?php echo t("click to sign up") ?></a>
+                <a href="<?php echo websiteUrl() . '/merchant/login' ?>" class="btnn btn--raised waves-effect waves-light"><?php echo t("login") ?></a>
             <?php endif; ?>
         </div>
     </div>
