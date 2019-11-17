@@ -2,7 +2,7 @@
 <?php 
 
 if( !isset($_SESSION['kr_merchant_id']) ){
-	$_SESSION['kr_merchant_id'] = 2;
+	$_SESSION['kr_merchant_id'] = 1;
 }
 
 $s=$_SESSION;
