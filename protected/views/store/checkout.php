@@ -1,14 +1,5 @@
+<div id="navbar-offset"></div>
 <?php
-$this->renderPartial('/front/default-header',array(
-   'h1'=>t("Checkout"),
-   'sub_text'=>t("login to your account")
-));?>
-
-<?php 
-$this->renderPartial('/front/order-progress-bar',array(
-   'step'=>isset($step)?$step:4,
-   'show_bar'=>true
-));
 
 echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCountrySet(true));
 ?>
@@ -21,7 +12,7 @@ echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCou
      <!--LEFT CONTENT-->
 	  <div class="col-md-6 border" >
        
-	   <div class="box-grey rounded">      
+	   <div class="box-grey rounded z-elevation-5">      
 		  <div class="section-label bottom20">
 		    <a class="section-label-a">
 		       <i class="ion-android-contact i-big"></i>
@@ -92,7 +83,7 @@ echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCou
 		     </a>      
 		   </div>
 		   <div class="col-md-6">
-		     <input type="submit" value="<?php echo t("Login")?>" class="green-button medium full-width">
+		     <input type="submit" value="<?php echo t("Login")?>" class="btnn btn--raised medium full-width">
 		   </div>
 		  </div>
 		  		  
@@ -147,7 +138,7 @@ echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCou
 	  <!--RIGHT CONTENT-->
 	  <div class="col-md-6 border" >
 	  	    
-	    <div class="box-grey rounded top-line-green">      
+	    <div class="box-grey z-elevation-5 rounded top-line-green">      
 	    
 	    <form id="form-signup" class="form-signup uk-panel uk-panel-box uk-form" method="POST">
 	     <?php echo CHtml::hiddenField('action','clientRegistration')?>
@@ -285,7 +276,7 @@ echo CHtml::hiddenField('mobile_country_code',Yii::app()->functions->getAdminCou
          
          <div class="row top10">
          <div class="col-md-12 ">
-          <input type="submit" value="<?php echo t("Create Account")?>" class="orange-button medium block full-width">
+          <input type="submit" value="<?php echo t("Create Account")?>" class="btnn btn--raised medium block full-width">
           </div>
          </div>
 		  
