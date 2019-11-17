@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
 <style>
     .container-fluid .row,
     .container .row {
@@ -7,6 +6,10 @@
 
     .row {
         margin: 1rem 0 2rem 0
+    }
+    
+    .is-title.font-bold {
+        margin-bottom: .75rem
     }
 
     #theDashboardRow1>div {
@@ -138,7 +141,7 @@
     <br />
 
     <div class="z-elevation-2 flex flex--justify-between flex--align-center has-padding">
-        <h1 class="is-title-lg"><?php echo t("Welcome, ") ?> <?php echo $merchant_info[0]->contact_name ?>
+        <div class="is-title"><?php echo t("Welcome, ") ?> <?php echo $merchant_info[0]->contact_name ?>
             <span class="space-left">
                 <?php
                     echo CHtml::checkBox('is_ready', false, array(
@@ -148,7 +151,7 @@
                 <a href="javascript:;" data-uk-tooltip="{pos:'bottom-left'}" title="<?php echo Yii::t("default", "Check this box to published your merchant, if this box is not check your merchant will not show on search result.") ?>"><i class="fa fa-info-circle"></i>
                 </a>
             </span>
-        </h1>
+        </div>
         <div class="flex flex--align-center">
             <span class="font-bold space-right"><?php echo t("Your Chef Average Score: ") ?></span>
             <div class="progress--circle progress--25">
@@ -162,29 +165,29 @@
     <div class="uk-grid" id="dashboard-row-1">
         <div class="uk-width-1-4 text-center">
             <div class="z-elevation-2 hoverable flex flex--align-center flex--justify-center rounded flex--dir-col">
-                <h2 class="is-title"><?php echo t("Kitchen Status") ?></h2>
+                <div class="is-title font-bold"><?php echo t("Kitchen Status") ?></div>
                 <div class="merchant-status"></div>
             </div>
         </div>
         <div class="uk-width-1-4 text-center">
             <div class="z-elevation-2 hoverable flex flex--align-center flex--justify-center rounded flex--dir-col">
                 <?php if ($merchant_info[0]->is_commission == 2) : ?>
-                    <h2 class="is-title"><?php echo t("Your balance") ?></h2>
+                    <div class="is-title font-bold"><?php echo t("Your Earnings") ?></div>
                     <div id="chef-commision" class="merchant_total_balance merchant-status commission_loader"></div>
                 <?php endif; ?>
             </div>
         </div>
         <div class="uk-width-1-4 text-center">
             <div class="z-elevation-2 hoverable flex flex--align-center flex--justify-center rounded flex--dir-col">
-                <h2 class="is-title"><?php echo t("A La Carte") ?></h2>
+                <div class="is-title font-bold"><?php echo t("A La Carte") ?></div>
                 <span class="font-bold is-stat"><?php echo current(FunctionsV3::getMerchantDishes($merchant_info[0]->merchant_id)[0]) . ' dishes' ?></span>
                 <a href="<?php echo Yii::app()->request->baseUrl; ?>/merchant/FoodItem" class="is-link space-top--sm"><?php echo t("View all Dishes") ?></a>
             </div>
         </div>
         <div class="uk-width-1-4 text-center">
             <div class="z-elevation-2 hoverable flex flex--align-center flex--justify-center rounded flex--dir-col">
-                <h2 class="is-title"><?php echo t("Meal Plans") ?></h2>
-                <span class="font-bold is-stat"><?php echo current(FunctionsV3::getAddonItemCount($merchant_info[0]->merchant_id)) ?> Meal Plans</span>
+                <div class="is-title font-bold"><?php echo t("Meal Plans") ?></div>
+                <span class="font-bold is-stat"><?php echo current(FunctionsV3::getMealPlanCount($merchant_info[0]->merchant_id)) ?> Meal Plans</span>
                 <a href="<?php echo Yii::app()->request->baseUrl; ?>/merchant/addon-item" class="is-link space-top--sm"><?php echo t("View all Meal Plans") ?></a>
             </div>
         </div>
