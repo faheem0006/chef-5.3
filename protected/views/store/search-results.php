@@ -534,24 +534,17 @@ if (FunctionsV3::isSearchByLocation()) {
 				<!--inner-->
 				<!--END CART-->
 
-				<!--DELIVERY OPTIONS-->
+					<!--DELIVERY OPTIONS-->
 				<div class="inner line-top relative delivery-option center">
 					<i class="order-icon delivery-option-icon"></i>
 
 					<?php if ($remove_delivery_info == false) : ?>
-						<p class="bold"><?php echo t("Delivery Options") ?></p>
+						<p class="bold"><?php echo t("Select Time") ?></p>
 					<?php else : ?>
 						<p class="bold"><?php echo t("Options") ?></p>
 					<?php endif; ?>
 
-					<?php echo CHtml::dropDownList(
-						'delivery_type',
-						$now,
-						(array) Yii::app()->functions->DeliveryOptions($merchant_id),
-						array(
-							'class' => 'grey-fields'
-						)
-					) ?>
+					<input type="hidden" name="delivery_type" id="delivery_type" value="delivery" />
 
 					<?php
 					echo CHtml::dropDownList(
@@ -613,7 +606,6 @@ if (FunctionsV3::isSearchByLocation()) {
 				</div>
 				<!--inner-->
 				<!--END DELIVERY OPTIONS-->
-
 			</div> <!-- box-grey-->
 		</div>
 		<!--end theiaStickySidebar-->
