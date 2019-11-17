@@ -1,21 +1,24 @@
-<?php
-$this->renderPartial('/front/banner-receipt', array(
-	'h1' => t("Login & Signup"),
-	'sub_text' => t("sign up to start ordering")
-));
+<style>
+	#register-form {
+		visibility: hidden;
+		height: 0;
+		width: 0;
+	}
+</style>
 
+<?php
 echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCountrySet(true));
 ?>
 
 <div class="sections section-grey2 section-checkout">
 
-	<div class="container">
+	<div class="container" id="signup-container">
 
-		<div class="row">
+		<div class="row flex flex--justify-center">
 			<!--LEFT CONTENT-->
-			<div class="col-md-6 border">
+			<div id="login-form" class="col-md-12 border text-center">
 
-				<div class="box-grey rounded">
+				<div class="box-grey rounded z-elevation-5">
 					<div class="section-label bottom20">
 						<a class="section-label-a">
 							<i class="ion-android-contact i-big"></i>
@@ -86,13 +89,15 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
 						<?php endif; ?>
 
 						<div class="row top15">
-							<div class="col-md-6">
-								<a href="javascript:;" class="forgot-pass-link2 block orange-text text-center">
-									<?php echo t("Forgot Password"); ?> <i class="ion-help"></i>
-								</a>
-							</div>
-							<div class="col-md-6">
-								<input type="submit" value="<?php echo t("Login") ?>" class="green-button medium full-width">
+							<div class="col-md-12">
+								<input type="submit" value="<?php echo t("Login") ?>" class="btnn btn--raised medium full-width">
+								<br /><br />
+								<div class="flex flex--justify-around flex--align-center">
+									<a href="javascript:;" class="forgot-pass-link2 block text-center">
+										<?php echo t("Forgot Password"); ?> <i class="ion-help"></i>
+									</a>
+									<a href="javascript:;" id="btnShowRegisterForm"><?php echo t("Signup Instead") ?></a>
+								</div>
 							</div>
 						</div>
 
@@ -153,9 +158,9 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
 			<!--END LEFT CONTENT-->
 
 			<!--RIGHT CONTENT-->
-			<div class="col-md-6 border">
+			<div id="register-form" class="col-md-12 border text-center">
 
-				<div class="box-grey rounded top-line-green">
+				<div class="box-grey rounded top-line-green z-elevation-5">
 
 					<form id="form-signup" class="form-signup uk-panel uk-panel-box uk-form" method="POST">
 						<?php echo CHtml::hiddenField('action', 'clientRegistrationModal') ?>
@@ -306,8 +311,10 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
 						<?php endif;; ?>
 
 						<div class="row top10">
-							<div class="col-md-12 ">
-								<input type="submit" value="<?php echo t("Create Account") ?>" class="orange-button medium block full-width">
+							<div class="col-md-12">
+								<input type="submit" value="<?php echo t("Create Account") ?>" class="btnn btn--raised medium block full-width">
+								<br />
+								<a href="#!" id="btnShowLoginForm"><?php echo t("or Login Instead!") ?></a>
 							</div>
 						</div>
 
@@ -328,3 +335,26 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
 
 </div>
 <!--section-grey-->
+
+<script>
+	var registerForm = document.querySelector('#register-form'),
+		loginForm = document.querySelector('#login-form');
+
+	document.querySelector('#btnShowRegisterForm').onclick = function() {
+		registerForm.style.visibility = 'visible';
+		registerForm.style.height = 'auto';
+		registerForm.style.width = 'auto';
+		loginForm.style.visibility = 'hidden';
+		loginForm.style.height = '0';
+		loginForm.style.width = '0';
+	};
+	
+	document.querySelector('#btnShowLoginForm').onclick = function() {
+		registerForm.style.visibility = 'hidden';
+		registerForm.style.height = '0';
+		registerForm.style.width = '0';
+		loginForm.style.visibility = 'visible';
+		loginForm.style.height = 'auto';
+		loginForm.style.width = 'auto';
+	};
+</script>

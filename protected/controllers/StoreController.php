@@ -712,7 +712,6 @@ class StoreController extends CController
 				break;
 
 			case "kr_search_category":
-
 				if ($cat_res = Yii::app()->functions->GetCuisineByName(isset($_GET['category']) ? $_GET['category'] : '')) {
 					$cuisine_id = $cat_res['cuisine_id'];
 				} else $cuisine_id = "-1";
@@ -740,23 +739,15 @@ class StoreController extends CController
 
 			case "kr_search_foodname":
 				$db_ext = new DbExt;
-				$stmt = "SELECT * FROM {{item}}	ORDER BY item_name ASC";
+				$stmt = "SELECT * FROM mt_item";
 				if ($res = $db_ext->rst($stmt)) {
 					foreach ($res as $val) {
 						$datas[] = $val;
 					}
 				}
-				// $res = FunctionsV3::searchByFood(
-				// 	$_SESSION['search_type'],
-				// 	isset($_GET['st']) ? $_GET['st'] : '',
-				// 	isset($_GET['page']) ? $_GET['page'] : 0,
-				// 	FunctionsV3::getPerPage(),
-				// 	$_GET,
-				// 	$datas
-				// );
 				$current_page_url = Yii::app()->createUrl('store/searcharea/', array(
 					'st' => isset($_GET['st']) ? $_GET['st'] : '',
-					'foodname' => 'all',
+					'foodname' => 'all'
 				));
 				break;
 
@@ -770,7 +761,7 @@ class StoreController extends CController
 				}
 				$current_page_url = Yii::app()->createUrl('store/searcharea/', array(
 					'st' => isset($_GET['st']) ? $_GET['st'] : '',
-					'mealplans' => 'all',
+					'mealplans' => 'all'
 				));
 				break;
 
@@ -786,7 +777,7 @@ class StoreController extends CController
 				}
 				$current_page_url = Yii::app()->createUrl('store/searcharea/', array(
 					'st' => isset($_GET['st']) ? $_GET['st'] : '',
-					'dailyspecial' => 'all',
+					'dailyspecial' => 'all'
 				));
 				break;
 
@@ -833,16 +824,79 @@ class StoreController extends CController
 
 		$_SESSION['krms_display_type'] = $display_type;
 
-		if (is_array($res) && count($res) >= 1) {
+		// Render Daily Specials
 
+		if (isset($_SESSION['kr_search_daily']) && isset($_GET['dailyspecial']) && $_GET['dailyspecial'] === 'all') {
+			$this->render('search-results', array(
+				'current_page_link' => $current_page_link,
+				'current_page_url' => $current_page_url,
+				'daily_special' => $datas,
+				'filter_delivery_type' => $filter_delivery_type,
+				'filter_cuisine' => $filter_cuisine,
+				'filter_minimum' => $filter_minimum,
+				'sort_filter' => $sort_filter,
+				'display_type' => $display_type,
+				'data' => $datas,
+				'restaurant_name' => $restaurant_name,
+				'current_page_link' => $current_page_link,
+				'current_page_url' => $current_page_url,
+				'fc' => getOptionA('theme_filter_colapse'),
+				'enabled_search_map' => getOptionA('enabled_search_map')
+			));
+			return;
+		}
+
+		// Render A La Carte Listing
+
+		if (isset($_SESSION['kr_search_foodname']) && isset($_GET['foodname']) && $_GET['foodname'] === 'all') {
+			$this->render('search-results', array(
+				'current_page_link' => $current_page_link,
+				'current_page_url' => $current_page_url,
+				'alacarte' => $datas,
+				'filter_delivery_type' => $filter_delivery_type,
+				'filter_cuisine' => $filter_cuisine,
+				'filter_minimum' => $filter_minimum,
+				'sort_filter' => $sort_filter,
+				'display_type' => $display_type,
+				'data' => $datas,
+				'restaurant_name' => $restaurant_name,
+				'current_page_link' => $current_page_link,
+				'current_page_url' => $current_page_url,
+				'fc' => getOptionA('theme_filter_colapse'),
+				'enabled_search_map' => getOptionA('enabled_search_map')
+			));
+			return;
+		}
+
+		// Render Meal Plans
+
+		if (isset($_SESSION['kr_search_meal']) && isset($_GET['mealplans']) && $_GET['mealplans'] === 'all') {
+			$this->render('search-results', array(
+				'current_page_link' => $current_page_link,
+				'current_page_url' => $current_page_url,
+				'meals' => $datas,
+				'filter_delivery_type' => $filter_delivery_type,
+				'filter_cuisine' => $filter_cuisine,
+				'filter_minimum' => $filter_minimum,
+				'sort_filter' => $sort_filter,
+				'display_type' => $display_type,
+				'data' => $datas,
+				'restaurant_name' => $restaurant_name,
+				'current_page_link' => $current_page_link,
+				'current_page_url' => $current_page_url,
+				'fc' => getOptionA('theme_filter_colapse'),
+				'enabled_search_map' => getOptionA('enabled_search_map')
+			));
+			return;
+		}
+
+		if (is_array($res) && count($res) >= 1) {
+			echo "In Normal!";
 			//$_SESSION['client_location'] = $res['client'];
 			//Cookie::setCookie('client_location', json_encode($res['client']));
 
 			$this->render('search-results', array(
-				'dishes' => $datas,
 				'data' => $res,
-				'meals' => $datas,
-				'dailyspecial' => $datas,
 				'filter_delivery_type' => $filter_delivery_type,
 				'filter_cuisine' => $filter_cuisine,
 				'filter_minimum' => $filter_minimum,

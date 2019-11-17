@@ -290,13 +290,12 @@ class FunctionsV3
 	}
 
 	/*
-	* Get all Foods	
+	* Get all Meal Plans	
 	*
 	*/
 
 	public static function searchByMealPlans($page = 0, $per_page = 5)
 	{
-		die("Ok!");
 		$p = new CHtmlPurifier();
 		if ($page > 0) {
 			$page = ($page - 1) * $per_page;
@@ -305,12 +304,12 @@ class FunctionsV3
 		$datas = array();
 
 		$db_ext_food = new DbExt;
-		$stmtFood = "SELECT *
+		$stmt = "SELECT *
 				FROM
 				mt_meal_plan
 				LIMIT 0,16
 				";
-		if ($res = $db_ext_food->rst($stmtFood)) {
+		if ($res = $db_ext_food->rst($stmt)) {
 			foreach ($res as $val) {
 				$datas[] = $val;
 			}
@@ -324,7 +323,7 @@ class FunctionsV3
 		}
 		return false;
 	}
-
+	
 	// Food Items Listing
 	public static function searchByFood($stype = '', $address = '', $page = 0, $per_page = 5, $getdata = '', $dishes = '')
 	{

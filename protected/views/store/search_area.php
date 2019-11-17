@@ -25,8 +25,7 @@ if (isset($_GET['dailyspecial'])) {
 	$_SESSION['search_type'] = 'kr_search_daily';
 }
 
-if (isset($_GET['category'])
-) {
+if (isset($_GET['category'])) {
 	$_SESSION['kr_search_category'] = $_GET['category'];
 	$_SESSION['search_type'] = 'kr_search_category';
 }
@@ -72,9 +71,9 @@ if (!empty($marker)) {
 
 				<div class="grid-1 left filter-options">
 					<?php echo CHtml::hiddenField('sort_filter', '') ?>
-					<?php Yii::app()->widgets->searchMerchant() ?>
-					<?php Yii::app()->widgets->searchFreeDelivery() ?>
-					<?php Yii::app()->widgets->searchByDeliveryType() ?>
+					<?php //Yii::app()->widgets->searchMerchant() ?>
+					<?php //Yii::app()->widgets->searchFreeDelivery() ?>
+					<?php //Yii::app()->widgets->searchByDeliveryType() ?>
 					<?php Yii::app()->widgets->searchByCuisine() ?>
 					<?php Yii::app()->widgets->searchMinimumOrder() ?>
 

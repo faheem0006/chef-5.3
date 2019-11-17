@@ -3139,8 +3139,8 @@ class Functions extends CApplicationComponent
 					   $single_item=2;					   
 					   //$single_details['price']=$price[0]['price']-$val['discount'];
 					   $single_details['price']=$price[0]['price'];
-					   $single_details['size']=$price[0]['size'];
-					   $single_details['size_id']=$price[0]['size_id'];
+					   //$single_details['size']=$price[0]['size'];
+					   //$single_details['size_id']=$price[0]['size_id'];
 					}
 				}
 								

@@ -22,11 +22,11 @@
         <thead>
             <tr>
                 <th><input type="checkbox" id="chk_all" class="chk_all"></th>
-                <th><?php echo Yii::t('default', "Dish Name") ?></th>
+                <th><?php echo Yii::t('default', "Title") ?></th>
                 <th><?php echo Yii::t('default', "Dish Description") ?></th>
-                <th><?php echo Yii::t('default', "Dish Category") ?></th>
-                <th><?php echo Yii::t('default', "Price") ?></th>
-                <th><?php echo Yii::t('default', "Dish Picture") ?></th>
+                <th><?php echo Yii::t('default', "Duration") ?></th>
+                <th><?php echo Yii::t('default', "Available From") ?></th>
+                <th><?php echo Yii::t('default', "Available To") ?></th>
                 <th><?php echo Yii::t('default', "Date") ?></th>
             </tr>
         </thead>

@@ -57,7 +57,7 @@
                     <label class="is-heading space-right"><?php echo Yii::t("default", "Title") ?></label>
                     <input type="text" id="title" name="title" class="uk-form-width-medium" />
                 </div>
-                <div class="space-left--sm">
+                <div class="space-left--xs">
                     <span class="is-heading space-right"><?php echo t("Availability") ?></span>
                     <select id="avail" name="avail" class="uk-form-select">
                         <option value="Lunch"><?php echo t("Lunch") ?></option>

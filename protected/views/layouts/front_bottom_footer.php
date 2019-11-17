@@ -125,6 +125,3 @@
   <!--container-->
 </div>
 <!--section-footer-->
-<button type="button" class="btnn btn--floating waves-effect waves-light" id="btn-scroll-top">
-  <i class="fa fa-long-arrow-up"></i>
-</button>

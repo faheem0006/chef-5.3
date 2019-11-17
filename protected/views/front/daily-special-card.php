@@ -18,9 +18,9 @@ if (isset($val_item) && $val_item['single_item'] == 2) {
 }
 ?>
 
-<div id="search-listview" class="col-md-4 border infinite-item free-wrap">
+<div id="search-listview" class="col-md-4 border infinite-item">
     <div class="z-elevation-2 is-rounded food-chef">
-
+        
         <?php if ($ds['is_featured'] == 2) : ?>
             <div class="ribbon"><span><?php echo t("Sponsored") ?></span></div>
         <?php endif; ?>

@@ -3,7 +3,7 @@
 
         <?php $chef_pic = FunctionsV3::getMerchantLogo($merchant_id) ?>
         <div class="meal-photo-container">
-            <img src="<?php echo $chef_pic ?>">
+            <img src="<?php echo $chef_pic ?>" />
         </div>
 
         <div class="flex flex-1 text-left flex--justify-between flex--align-center flex--inner space-top--xs">

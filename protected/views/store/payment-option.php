@@ -1,9 +1,9 @@
 <div id="navbar-offset"></div>
 <?php 
 
-// if( !isset($_SESSION['kr_merchant_id']) ){
-// 	$_SESSION['kr_merchant_id'] = $_GET['id'];
-// }
+if( !isset($_SESSION['kr_merchant_id']) ){
+	$_SESSION['kr_merchant_id'] = 2;
+}
 
 $s=$_SESSION;
 $continue=true;

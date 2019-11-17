@@ -1,3 +1,5 @@
+<div id="navbar-offset"></div>
+
 <?php
 
 $search_address = isset($_GET['s']) ? $_GET['s'] : '';
@@ -40,17 +42,11 @@ if (FunctionsV3::isSearchByLocation()) {
 //    'search_address'=>$search_address,
 //    'total'=>$data['total']
 // ));
+// $this->renderPartial('/front/order-progress-bar', array(
+// 	'step' => 2,
+// 	'show_bar' => true
+// ));
 ?>
-
-	<?php
-	$this->renderPartial('/front/order-progress-bar', array(
-		'step' => 2,
-		'show_bar' => true
-	));
-
-	//echo CHtml::hiddenField('clien_lat', $data['client']['lat']);
-	//echo CHtml::hiddenField('clien_long', $data['client']['long']); ///////////////////////////// Removed
-	?>
 
 	<div class="search-map-results" id="search-map-results">
 	</div>
@@ -99,7 +95,7 @@ if (FunctionsV3::isSearchByLocation()) {
 												<div class="col-md-10 col-xs-10">
 													<?php echo CHtml::textField('restaurant_name', $restaurant_name, array(
 														'required' => true,
-														'placeholder' => t("enter restaurant name")
+														'placeholder' => t("enter Chef Name")
 													)) ?>
 												</div>
 												<div class="col-md-2 relative col-xs-2 ">
@@ -114,67 +110,6 @@ if (FunctionsV3::isSearchByLocation()) {
 						<!--filter-box-->
 						<!--END FILTER MERCHANT NAME-->
 
-
-
-						<!--FILTER DELIVERY FEE-->
-						<div class="filter-box">
-							<a href="javascript:;">
-								<span>
-									<i class="<?php echo $fc == 2 ? "ion-ios-arrow-thin-down" : 'ion-ios-arrow-thin-right' ?>"></i>
-									<?php echo t("Delivery Fee") ?>
-								</span>
-								<b></b>
-							</a>
-							<ul class="<?php echo $fc == 2 ? "hide" : '' ?>">
-								<li>
-									<?php
-									echo CHtml::checkBox('filter_by[]', false, array(
-										'value' => 'free-delivery',
-										'class' => "filter_promo icheck"
-									));
-									?>
-									<?php echo t("Free Delivery") ?>
-								</li>
-							</ul>
-						</div>
-						<!--filter-box-->
-						<!--END FILTER DELIVERY FEE-->
-
-						<!--FILTER DELIVERY -->
-						<?php if (!empty($filter_delivery_type)) : ?>
-							<a href="<?php echo FunctionsV3::clearSearchParams('filter_delivery_type') ?>">[<?php echo t("Clear") ?>]</a>
-						<?php endif; ?>
-						<?php if ($services = Yii::app()->functions->Services()) : ?>
-							<div class="filter-box">
-								<a href="javascript:;">
-									<span>
-										<i class="<?php echo $fc == 2 ? "ion-ios-arrow-thin-down" : 'ion-ios-arrow-thin-right' ?>"></i>
-										<?php echo t("By Delivery") ?>
-									</span>
-									<b></b>
-								</a>
-								<ul class="<?php echo $fc == 2 ? "hide" : '' ?>">
-									<?php foreach ($services as $key => $val) : ?>
-										<li>
-											<?php
-													echo CHtml::radioButton(
-														'filter_delivery_type',
-														$filter_delivery_type == $key ? true : false,
-														array(
-															'value' => $key,
-															'class' => "filter_by filter_delivery_type icheck"
-														)
-													);
-													?>
-											<?php echo $val; ?>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							</div>
-							<!--filter-box-->
-						<?php endif; ?>
-						<!--END FILTER DELIVERY -->
-
 						<!--FILTER CUISINE-->
 						<?php if (!empty($filter_cuisine)) : ?>
 							<a href="<?php echo FunctionsV3::clearSearchParams('filter_cuisine') ?>">[<?php echo t("Clear") ?>]</a>
@@ -184,7 +119,7 @@ if (FunctionsV3::isSearchByLocation()) {
 								<a href="javascript:;">
 									<span>
 										<i class="<?php echo $fc == 2 ? "ion-ios-arrow-thin-down" : 'ion-ios-arrow-thin-right' ?>"></i>
-										<?php echo t("By Cuisines") ?>
+										<?php echo t("By Category") ?>
 									</span>
 									<b></b>
 								</a>
@@ -313,85 +248,7 @@ if (FunctionsV3::isSearchByLocation()) {
 					<div class="result-merchant">
 						<div class="row">
 
-
-							<?php if ($data && !isset($_SESSION['kr_search_meal']) && !isset($_SESSION['kr_search_foodname'])) : ?>
-
-								<?php foreach ($data['list'] as $val) : ?>
-									<?php
-											$merchant_id = $val['merchant_id'];
-											$ratings = Yii::app()->functions->getRatings($merchant_id);
-
-											$distance_type = FunctionsV3::getMerchantDistanceType($merchant_id);
-											$distance_type_orig = $distance_type;
-
-											$distance = FunctionsV3::getDistanceBetweenPlot(
-												$data['client']['lat'],
-												$data['client']['long'],
-												$val['latitude'],
-												$val['lontitude'],
-												$distance_type
-											);
-
-											$distance_type_raw = $distance_type == "M" ? "miles" : "kilometers";
-											$distance_type = $distance_type == "M" ? t("miles") : t("kilometers");
-											$distance_type_orig = $distance_type_orig == "M" ? t("miles") : t("kilometers");
-
-											if (!empty(FunctionsV3::$distance_type_result)) {
-												$distance_type_raw = FunctionsV3::$distance_type_result;
-												$distance_type = t(FunctionsV3::$distance_type_result);
-											}
-
-											$merchant_delivery_distance = getOption($merchant_id, 'merchant_delivery_miles');
-
-											if ($search_by_location) {
-												$delivery_fee = FunctionsV3::getLocationDeliveryFee(
-													$merchant_id,
-													$val['delivery_charges'],
-													$location_data
-												);
-											} else {
-												if (FunctionsV3::isClassDeliveryTableExist()) {
-													$delivery_fee = DeliveryTableRate::getDeliveryFee(
-														$merchant_id,
-														0,
-														$val['delivery_charges'],
-														$distance,
-														$distance_type_raw
-													);
-												} else {
-													$delivery_fee = FunctionsV3::getMerchantDeliveryFee(
-														$merchant_id,
-														$val['delivery_charges'],
-														$distance,
-														$distance_type_raw
-													);
-												}
-											}
-
-											if (FunctionsV3::enabledExtraCharges()) {
-												$delivery_fee = FunctionsV3::extraDeliveryFee($merchant_id, $delivery_fee, '');
-											}
-
-											//dump("Final Fee=>".$delivery_fee);
-											?>
-
-									<?php
-											$this->renderPartial('/front/search-list-1', array(
-												'data' => $data,
-												'val' => $val,
-												'merchant_id' => $merchant_id,
-												'ratings' => $ratings,
-												'distance_type' => $distance_type,
-												'distance_type_orig' => $distance_type_raw,
-												'distance' => $distance,
-												'merchant_delivery_distance' => $merchant_delivery_distance,
-												'delivery_fee' => $delivery_fee,
-												'search_by_location' => $search_by_location
-											));
-											?>
-									<?php $ii++ ?>
-								<?php endforeach; ?>
-							<?php elseif (isset($_SESSION['kr_search_meal']) && isset($_GET['mealplans'])) : ?>
+							<?php if (isset($_SESSION['kr_search_meal']) && isset($_GET['mealplans'])) : ?>
 								<?php foreach ($meals as $meal) : ?>
 									<?php
 											$this->renderPartial('/front/meal-plan', array(
@@ -403,7 +260,8 @@ if (FunctionsV3::isSearchByLocation()) {
 											?>
 								<?php endforeach; ?>
 							<?php elseif (isset($_SESSION['kr_search_foodname']) && isset($_GET['foodname'])) : ?>
-								<?php foreach ($dishes as $dish) : ?>
+								
+								<?php foreach ($alacarte as $dish) : ?>
 									<?php
 											$ratings = Yii::app()->functions->getRatings($dish['merchant_id']);
 											?>
@@ -419,17 +277,12 @@ if (FunctionsV3::isSearchByLocation()) {
 											?>
 								<?php endforeach; ?>
 							<?php elseif (isset($_SESSION['kr_search_daily']) && isset($_GET['dailyspecial'])) : ?>
-								<?php foreach ($dailyspecial as $ds) : ?>
-									<?php
-											$ratings = Yii::app()->functions->getRatings($ds['merchant_id']);
-											?>
+								
+								<?php foreach ($daily_special as $ds) : ?>
 									<?php
 											$this->renderPartial('/front/daily-special-card', array(
-												'data' => $data,
 												'val' => $val,
-												'ds' => $ds,
-												'merchant_id' => $ds['merchant_id'],
-												'ratings' => $ratings,
+												'ds' => $ds
 											));
 											?>
 								<?php endforeach; ?>
@@ -442,7 +295,7 @@ if (FunctionsV3::isSearchByLocation()) {
 
 						<div class="search-result-loader">
 							<i></i>
-							<p><?php echo t("Loading more restaurant...") ?></p>
+							<p><?php echo t("Loading more Data...") ?></p>
 						</div>
 						<!--search-result-loader-->
 
@@ -463,7 +316,7 @@ if (FunctionsV3::isSearchByLocation()) {
 						$options['maxpages']        =   1;
 						$options['jumpers'] = false;
 						$options['link_url'] = $current_page_link . '&page=##ID##';
-						$pagination =   new pagination($data['total'], ((isset($_GET['page'])) ? $_GET['page'] : 1), $options);
+						$pagination =   new pagination(4, ((isset($_GET['page'])) ? $_GET['page'] : 1), $options);
 						$data   =   $pagination->render();
 						?>
 
