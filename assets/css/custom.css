@@ -1,6 +1,7 @@
 .is-heading {
     font-weight: 700;
     font-size: 18px;
+    line-height: 100%;
     font-family: 'Montserrat', 'Lato', serif;
     letter-spacing: -.5px;
 }
@@ -39,6 +40,11 @@
 
 .has-padding {
     padding: 1rem !important
+}
+
+.border {
+    border: 1px solid #ccc;
+    border-radius: 4px
 }
 
 /*
@@ -286,7 +292,6 @@ body {
 .bg-dark {
     background: #222
 }
-
 
 .bg-white {
     background-color: #fff
@@ -719,10 +724,175 @@ a.btnn:hover {
     width: 100%
 }
 
-/*
-*   Become a Chef
-*
-*/
+/* ==========================================================================
+   3 - Show Meal Plan (Profile View)
+   ========================================================================== */
+
+#meal-order-detail .is-heading {
+    line-height: 0;
+}
+
+.fb-profile {
+    margin-bottom: 2rem
+}
+
+.fb-profile .fb-image-lg {
+    z-index: 0;
+    width: 100%;
+    height: 300px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-height: 300px;
+    margin-bottom: 10px;
+}
+
+.fb-image-profile {
+    margin: -60px 10px 20px 30px;
+    z-index: 10;
+    width: 20%;
+    width: 250px;
+    height: 150px;
+    border-radius: 10px
+}
+
+.fb-profile-text {
+    padding-left: 2rem
+}
+
+a.list-group-item {
+    height: auto;
+    border-radius: 4px;
+    border: 0;
+    margin-bottom: 1.5rem;
+    background: #fff !important;
+    min-height: 120px;
+}
+
+.stars {
+    margin: 20px auto 1px;
+}
+
+/* Tabs panel */
+.tabbable-panel {
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+/* Default mode */
+.tabbable-line>.nav-tabs {
+    border: none;
+    margin: 0px;
+}
+
+.tabbable-line>.nav-tabs>li {
+    margin-right: 2px;
+}
+
+.tabbable-line>.nav-tabs>li>a {
+    border: 0;
+    margin-right: 0;
+    color: #737373;
+}
+
+.tabbable-line>.nav-tabs>li>a>i {
+    color: #a6a6a6;
+}
+
+.tabbable-line>.nav-tabs>li.open,
+.tabbable-line>.nav-tabs>li:hover {
+    border-bottom: 4px solid #4582f6;
+}
+
+.tabbable-line>.nav-tabs>li.open>a,
+.tabbable-line>.nav-tabs>li:hover>a {
+    border: 0;
+    background: none !important;
+    color: #333333;
+}
+
+.tabbable-line>.nav-tabs>li.open>a>i,
+.tabbable-line>.nav-tabs>li:hover>a>i {
+    color: #a6a6a6;
+}
+
+.tabbable-line>.nav-tabs>li.open .dropdown-menu,
+.tabbable-line>.nav-tabs>li:hover .dropdown-menu {
+    margin-top: 0px;
+}
+
+.tabbable-line>.nav-tabs>li.active {
+    border-bottom: 4px solid #4582f6;
+    position: relative;
+}
+
+.tabbable-line>.nav-tabs>li.active>a {
+    border: 0 !important;
+    color: #333333;
+}
+
+.tabbable-line>.nav-tabs>li.active>a>i {
+    color: #404040;
+}
+
+.tabbable-line>.tab-content {
+    margin-top: -3px;
+    background-color: #fff;
+    border: 0;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+}
+
+.portlet .tabbable-line>.tab-content {
+    padding-bottom: 0;
+}
+
+/* Below tabs mode */
+
+.tabbable-line.tabs-below>.nav-tabs>li {
+    border-top: 4px solid transparent;
+}
+
+.tabbable-line.tabs-below>.nav-tabs>li>a {
+    margin-top: 0;
+}
+
+.tabbable-line.tabs-below>.nav-tabs>li:hover {
+    border-bottom: 0;
+    border-top: 4px solid #fbcdcf;
+}
+
+.tabbable-line.tabs-below>.nav-tabs>li.active {
+    margin-bottom: -2px;
+    border-bottom: 0;
+    border-top: 4px solid #f3565d;
+}
+
+.tabbable-line.tabs-below>.tab-content {
+    margin-top: -10px;
+    border-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.menu_title {
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    margin: 0 5px;
+}
+
+
+@media (max-width:768px) {
+    .fb-image-profile {
+        margin: -45px 10px 0px 25px;
+        z-index: 9;
+        width: 20%;
+    }
+}
+
+/* ==========================================================================
+   4 - Become a Chef
+   ========================================================================== */
 
 #becomechefhero {
     height: 634px;
@@ -772,9 +942,9 @@ a.btnn:hover {
     z-index: 1;
 }
 
-/*
-*   Homepage
-*/
+/* ==========================================================================
+   5 - Homepage
+   ========================================================================== */
 
 .card {
     margin: auto;
@@ -875,10 +1045,11 @@ a.btnn:hover {
     background: orangered
 }
 
-/*
-*   Sign Up
-*
-*/
+
+/* ==========================================================================
+    6 - Sign up Form
+   ========================================================================== */
+
 #signup-container {
     height: 100vh;
     padding-top: 150px;
@@ -891,10 +1062,11 @@ a.btnn:hover {
     text-align: center;
 }
 
-/*
-*   Become a Chef Steps Form
-*
-*/
+
+/* ==========================================================================
+   7 - Become a Chef Progress Form
+   ========================================================================== */
+
 .wizard {
     margin: 20px auto;
     background-color: #fff

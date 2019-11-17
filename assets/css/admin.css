@@ -117,6 +117,12 @@ font-size:12px;
   height: 52px;
 }
 
+.header_wrap .btnn {
+  background: transparent;
+  box-shadow: none;
+  color: #222
+}
+
 .main_wrapper {
   position: relative;
   height: 100%;
