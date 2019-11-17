@@ -673,5 +673,6 @@ Yii::app()->functions->getOptionAdmin("admin_currency_position"));
 <script>
 
 document.querySelector('#payment_opt').setAttribute('checked', true);
+document.querySelector('.top25').style.opacity = 0;
 
 </script>
