@@ -125,6 +125,27 @@ function rm_notices() {
 	$(".uk-alert").remove();
 }
 
+$(document).on('click', '.btn-chef-started-cooking', function(){
+	var merchant_id = $(this).attr('data-id'),
+		order_id = $(this).attr('merchant-id'),
+		params = 'action=startChefDishProgress&oid=' + order_id + "&mid=" + merchant_id;
+		params += addValidationRequest(),
+		btn = $(this);
+		
+		$.ajax({
+			type: "POST",
+			url: ajax_url,
+			data: params,
+			dataType: 'json',
+			success: function (data) {
+				btn.attr('disabled', true);		
+			},
+			error: function () {
+				console.log("Error!");
+			}
+		});
+});
+
 function form_submit(formid) {
 	dump("form_submit");
 

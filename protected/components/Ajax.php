@@ -2277,7 +2277,7 @@ $this->msg=t("We have sent bank information instruction to your email")." :$merc
 						  $val['country_code'],
 						  $val['restaurant_phone']." / ".$val['contact_phone'],
 						  $val['package_name']."<br/>".$membershipdate,
-						  $val['activation_key'],
+						  FunctionsV3::getMerchantDishStatus($val['merchant_id']),
 						  //membershipType($val['is_commission']),
 						  FunctionsV3::DisplayMembershipType($val['merchant_type'], $val['invoice_terms']),
 						  //$date."<br/><div class=\"uk-badge $class\">".strtoupper(Yii::t("default",$val['status']))."</div>".$link_login

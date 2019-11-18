@@ -43,10 +43,10 @@ if (isset($val_item) && $val_item['single_item'] == 2) {
                 <div class="is-heading-inner">
                     <?php echo t("By ") ?>
                     <div>
-                        <span class="orange-text"><?php echo FunctionsV3::getMerchantByName($dish_data['merchant_id'])[0]['contact_name'] ?></span>
+                        <a href="<?php echo Yii::app()->createUrl("/menu-" . current(FunctionsV3::getSlugByMerchant($dish_data['merchant_id']))) ?>" class="orange-text"><?php echo FunctionsV3::getMerchantByName($dish_data['merchant_id'])[0]['contact_name'] ?></a>
                         <i class="fa fa-star font-bold text-yellow"></i>
                         <span class="space-left--xs text-yellow"><?php echo t("5.0") ?>
-                            <span>(3)</span>
+                            <span><?php echo t("3") ?></span>
                         </span>
                     </div>
                 </div>

@@ -592,7 +592,6 @@ if (!class_exists('AjaxAdmin')) {
 
 		public function merchantLogin()
 		{
-
 			/** check if admin has enabled the google captcha*/
 			if (getOptionA('captcha_merchant_login') == 2) {
 				if (GoogleCaptcha::checkCredentials()) {
@@ -676,7 +675,7 @@ if (!class_exists('AjaxAdmin')) {
 			       AND
 			       password=" . Yii::app()->db->quoteValue(md5($this->data['password'])) . "
 			       AND
-			       status='active'
+			       status='pending'
 			       LIMIT 0,1
 			";
 			if ($res = $this->rst($stmt)) {
@@ -703,7 +702,7 @@ if (!class_exists('AjaxAdmin')) {
 						'session_token' => $session_token
 					);
 					$this->updateData("{{merchant_user}}", $params, 'merchant_user_id', $res[0]['merchant_user_id']);
-				} else $this->msg = Yii::t("default", "Login Failed. You account status is [status]", array(
+				} else $this->msg = Yii::t("default", "Login Failed. Your account status is [status]", array(
 					'[status]' => t($res[0]['status'])
 				));
 			} else $this->msg = Yii::t("default", "Either username or password is invalid.");
@@ -1710,6 +1709,21 @@ if (!class_exists('AjaxAdmin')) {
 				$this->code = 1;
 				$this->msg = Yii::t("default", 'Merchant updated.');
 			} else $this->msg = Yii::t("default", "ERROR: cannot update");
+		}
+		
+		public function startChefDishProgress()
+		{
+			$sql = "INSERT INTO mt_item_order_time (order_id, merchant_id, dish_ready) VALUES (:orid, :mtid, :dr)";
+			$params = array(
+				':orid' => $this->data['oid'],
+				':mtid' => $this->data['mid'],
+				':dr' => 1
+			);
+			$command = Yii::app()->db->createCommand($sql);
+			if( $res = $command->execute($params) ){
+				$this->code = 2;
+				$this->msg = Yii::t("default", "Great Progress1");
+			} else $this->msg = Yii::t("default", "Error!!");
 		}
 
 		public function merchantSettings()
@@ -5885,10 +5899,9 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 									//dump($res);
 									foreach ($res as $val) {
 										$new = '';
-										$action = "<a data-id=\"" . $val['order_id'] . "\" class=\"edit-order\" href=\"javascript:\">" . Yii::t("default", "Edit") . "</a>";
-										$action .= "<a data-id=\"" . $val['order_id'] . "\" class=\"view-receipt\" href=\"javascript:\">" . Yii::t("default", "View") . "</a>";
-
-										$action .= "<a data-id=\"" . $val['order_id'] . "\" class=\"view-order-history\" href=\"javascript:\">" . Yii::t("default", "History") . "</a>";
+										$action = "<a merchant-id=\"". $merchant_id ."\" data-id=\"" . $val['order_id'] . "\" class=\"btnn btn--raised \" href=\"javascript:\">" . Yii::t("default", "In Progress") . "</a>";
+										//$action .= "<a data-id=\"" . $val['order_id'] . "\" class=\"view-receipt\" href=\"javascript:\">" . Yii::t("default", "Viewsss") . "</a>";
+										//$action .= "<a data-id=\"" . $val['order_id'] . "\" class=\"view-order-history\" href=\"javascript:\">" . Yii::t("default", "History") . "</a>";
 
 										if ($val['viewed'] == 1) {
 											$new = " <div class=\"uk-badge\">" . Yii::t("default", "NEW") . "</div>";
@@ -7297,7 +7310,6 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 
 							public function merchantSignUp()
 							{
-
 								/** check if admin has enabled the google captcha*/
 								if (getOptionA('captcha_merchant_signup') == 2) {
 									if (GoogleCaptcha::checkCredentials()) {
@@ -7373,6 +7385,14 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 									'state' => $p->purify(addslashes($this->data['state'])),
 									'abn' => isset($this->data['abn']) ? $p->purify($this->data['abn']) : '',
 									'service' => isset($this->data['service']) ? $p->purify($this->data['service']) : '',
+									'merchant_describe' => isset($this->data['merchant_describe']) ? $this->data['merchant_describe'] : '',
+									'merchant_inspire' => isset($this->data['merchant_inspire']) ? $this->data['merchant_inspire'] : '',
+									'merchant_speciality' => isset($this->data['merchant_speciality']) ? $this->data['merchant_speciality'] : '',
+									'la_carte_service' => 1,
+									'daily_special_service' => isset($this->data['daily_special_service']) ? 1 : 0,
+									'meal_plan_service' => isset($this->data['meal_plan_service']) ? 1 : 0,
+									'party_service' => isset($this->data['party_service']) ? 1 : 0, 
+									'logo' => isset($this->data['logo']) ? $this->data['logo'] : ''
 								);
 
 								if (!Yii::app()->functions->validateUsername($this->data['username'])) {

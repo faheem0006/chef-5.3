@@ -4,9 +4,9 @@
       <?php $name = Yii::app()->functions->getOptionAdmin('website_title'); ?>
 
       <h3 class="is-title-lg"><?php echo t("Approved? Login below!") ?></h3>
-      
+
       <br />
-      
+
       <form id="forms" class="uk-form forms" onsubmit="return false;" method="POST">
          <?php echo CHtml::hiddenField("action", 'merchantLogin') ?>
          <?php echo CHtml::hiddenField("redirect", Yii::app()->request->baseUrl . "/merchant") ?>

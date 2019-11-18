@@ -43,22 +43,22 @@ $(document).ready(function () {
         });
     })();
 
-    var debounceTimer = null,
-        btnTop = document.querySelector('#btn-scroll-top');
+    // var debounceTimer = null,
+    //     btnTop = document.querySelector('#btn-scroll-top');
 
-    window.onscroll = function () {
-        if (debounceTimer) {
-            clearTimeout(debounceTimer);
-        }
-        var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
-        debounceTimer = setTimeout(function () {
-            if (scrollPos > 300) {
-                btnTop.classList.add('active');
-            } else {
-                btnTop.classList.remove('active');
-            }
-        }, 300);
-    };
+    // window.onscroll = function () {
+    //     if (debounceTimer) {
+    //         clearTimeout(debounceTimer);
+    //     }
+    //     var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+    //     debounceTimer = setTimeout(function () {
+    //         if (scrollPos > 300) {
+    //             btnTop.classList.add('active');
+    //         } else {
+    //             btnTop.classList.remove('active');
+    //         }
+    //     }, 300);
+    // };
 
     $('#btn-scroll-top').on('click', function () {
         $('html, body').animate({

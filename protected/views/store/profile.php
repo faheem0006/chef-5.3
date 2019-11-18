@@ -14,7 +14,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
 
         <div class="tabs-wrapper z-elevation-2">
           <ul id="tabs">
-            <li class="waves-effect <?php echo $tabs == "" ? "active" : '' ?>">
+            <li id="tab-default" class="waves-effect <?php echo $tabs == "" ? "active" : '' ?>">
               <i class="ion-android-contact"></i> <span><?php echo t("Profile") ?></span>
             </li>
 
@@ -22,7 +22,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
               <i class="ion-ios-location-outline"></i> <span><?php echo t("Address Book") ?></span>
             </li>
 
-            <li class="waves-effect"><i class="ion-ios-book-outline"></i>
+            <li id="tab-orders" class="waves-effect"><i class="ion-ios-book-outline"></i>
               <span><?php echo t("Order History") ?></span>
             </li>
 
@@ -47,7 +47,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
           </ul>
 
           <ul id="tab">
-            <li class="<?php echo $tabs == "" ? "active" : '' ?>">
+            <li id="tab-default-data" class="<?php echo $tabs == "" ? "active" : '' ?>">
               <?php $this->renderPartial('/front/profile', array(
                 'data' => $info
               )); ?>
@@ -85,7 +85,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
 
               ?>
             </li>
-            <li class="<?php echo $tabs == 3 ? "active" : '' ?>">
+            <li id="tab-orders-data" class="<?php echo $tabs == 3 ? "active" : '' ?>">
               <?php
 
               if (method_exists('Functionsv3', 'clientHistyOrder')) {
@@ -243,3 +243,23 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
   <!--container-->
 </div>
 <!--sections-->
+
+<script>
+
+// Open Orders tab if being redirected after placing order!
+
+if( /vieworders/.test(window.location.href) ){
+  
+  var $$ = function(arg){
+    return document.querySelector(arg);
+  }
+  
+  $$('#tab-default').classList.remove('active');
+  $$('#tab-orders').classList.add('active');
+  
+  $$('#tab-default-data').classList.remove('active');
+  $$('#tab-orders-data').classList.add('active');
+  
+}
+
+</script>

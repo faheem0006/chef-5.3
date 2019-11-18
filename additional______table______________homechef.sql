@@ -1,5 +1,5 @@
 CREATE TABLE `mt_daily_special` (
-  `item_id` int(14) NOT NULL,
+  `item_id` int(14) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `merchant_id` int(14) NOT NULL DEFAULT 0,
   `item_name` varchar(255) NOT NULL DEFAULT '',
   `item_description` text DEFAULT NULL,
@@ -49,7 +49,7 @@ ADD COLUMN item_quantity VARCHAR(100),
 ADD COLUMN item_order_time VARCHAR(100);
 
 CREATE TABLE `mt_meal_plan` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `mo` varchar(255) NOT NULL,
   `tu` varchar(255) NOT NULL,
   `we` varchar(255) NOT NULL,
@@ -65,3 +65,10 @@ CREATE TABLE `mt_meal_plan` (
   `fr_date` date NOT NULL,
   `is_expired` binary(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `mt_item_order_time` (
+	`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`order_id` VARCHAR(100),
+	`merchant_id`` VARCHAR(100),
+	`dish_ready` VARCHAR(30)
+);

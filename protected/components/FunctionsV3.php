@@ -22,6 +22,54 @@ class FunctionsV3
 		return false;
 	}
 	
+	public static function getMerchantDishTime($merchant_id='')
+	{
+		$q = FunctionsV3::q($merchant_id);
+		$DbExt = new DbExt;
+		$stmt = "
+		SELECT item_order_time
+		FROM 
+		mt_item
+		WHERE
+		merchant_id = " . ($merchant_id) . "
+		";
+		//dump($stmt);
+		if ($res = $DbExt->rst($stmt)) {
+			return $res[0];
+		}
+		return false;
+	}
+	
+	public static function getMerchantDishProgressFlag($merchant_id='')
+	{
+		$q = FunctionsV3::q($merchant_id);
+		$DbExt = new DbExt;
+		$stmt = "
+		SELECT dish_ready
+		FROM 
+		mt_item_order_time
+		WHERE
+		merchant_id = " . 2 . "
+		";
+		//dump($stmt);
+		if ($res = $DbExt->rst($stmt)) {
+			return $res[0];
+		}
+		return false;
+	}
+	
+	public static function getMerchantDishStatus($merchant_id='')
+	{
+		return "2 Hours";
+		$merchant_started_cooking = self::getMerchantDishProgressFlag($merchant_id);
+		return $merchant_started_cooking['dish_ready'];
+		if( $merchant_started_cooking ){
+			return true;
+			$merchant_dish_time = self::getMerchantDishTime($merchant_id);
+			return $merchant_dish_time;
+		}
+	}
+	
 	public static function getMealPlanCount($merchant_id='')
 	{
 		$q = FunctionsV3::q($merchant_id);

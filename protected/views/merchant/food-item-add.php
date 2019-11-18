@@ -813,11 +813,13 @@
 
 	document.querySelector('#forms').addEventListener('submit', function() {
 		return false;
-		var timeout = setTimeout(function() {
-			if (window.location.href.indexOf('redirect') !== -1) {
-				window.location.href = "localhost/restomulti";
+		if( /redirect/.test(window.location.href) ){
+			var timeout = setTimeout(function() {
+			if ( /redirect/.test(window.location.href) ) {
+				window.location.href = "<?php echo websiteUrl() . '/merchantsignup?do=step4' ?>";
+				clearTimeout(timeout);
 			}
-			clearTimeout(timeout);
-		}, 1000);
+		}, 1500);	
+		}
 	});
 </script>
