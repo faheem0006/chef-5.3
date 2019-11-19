@@ -783,6 +783,7 @@ class StoreController extends CController
 				 mt_merchant mt ON
 				 mi.merchant_id = mt.merchant_id
 				where mt.status = 'approved'";
+				
 				if ($res = $db_ext->rst($stmt)) {
 					foreach ($res as $val) {
 						if ($val['expiry_date'] > date('Y-m-d')) {
@@ -1019,7 +1020,7 @@ class StoreController extends CController
 
 			//dump($res);
 
-			if ($res['status'] == "active" && $res['is_ready'] == 2) {
+			if ( $res['status'] == "active" || $res['status'] == "approved" && $res['is_ready'] == 2) {
 
 				/*SEO*/
 				$seo_title = Yii::app()->functions->getOptionAdmin('seo_menu');
