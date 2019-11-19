@@ -132,12 +132,12 @@ return array(
 
 		'db' => array(
 			'class'            => 'CDbConnection',
-			'connectionString' => 'mysql:host=localhost;dbname=dbresto2',
+			'connectionString' => 'mysql:host=localhost;dbname=szekvbrggz',
 			'emulatePrepare'   => true,
-			'username'         => 'root',
-			'password'         => '',
+			'username'         => 'szekvbrggz',
+			'password'         => 'f2J8s2bj4u',
 			'charset'          => 'utf8',
-			'tablePrefix'      => 'mt_',
+			'tablePrefix'      => 'mt_'
 		),
 
 		'functions' => array(
