@@ -740,7 +740,13 @@ class StoreController extends CController
 
 			case "kr_search_foodname":
 				$db_ext = new DbExt;
-				$stmt = "SELECT * FROM mt_item";
+				//$stmt = "SELECT * FROM mt_item";
+				$stmt = "SELECT *
+				from mt_item mi inner join
+				 mt_merchant mt ON
+				 mi.merchant_id = mt.merchant_id
+				where mt.status = 'approved'";
+
 				if ($res = $db_ext->rst($stmt)) {
 					foreach ($res as $val) {
 						$datas[] = $val;
@@ -754,7 +760,11 @@ class StoreController extends CController
 
 			case "kr_search_meal":
 				$db_ext = new DbExt;
-				$stmt = "SELECT * FROM mt_meal_plan";
+				$stmt = "SELECT *
+				from mt_meal_plan mi inner join
+				 mt_merchant mt ON
+				 mi.merchant_id = mt.merchant_id
+				where mt.status = 'approved'";
 				if ($res = $db_ext->rst($stmt)) {
 					foreach ($res as $val) {
 						$datas[] = $val;
@@ -768,7 +778,11 @@ class StoreController extends CController
 
 			case "kr_search_daily":
 				$db_ext = new DbExt;
-				$stmt = "SELECT * FROM mt_daily_special";
+				$stmt = "SELECT *
+				from mt_daily_special mi inner join
+				 mt_merchant mt ON
+				 mi.merchant_id = mt.merchant_id
+				where mt.status = 'approved'";
 				if ($res = $db_ext->rst($stmt)) {
 					foreach ($res as $val) {
 						if ($val['expiry_date'] > date('Y-m-d')) {
@@ -4605,7 +4619,7 @@ class StoreController extends CController
 	{
 		$this->render('show_plan');
 	}
-	
+
 	public function actionDishAdd()
 	{
 		$this->render('show_plan');

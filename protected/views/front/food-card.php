@@ -32,8 +32,10 @@ if (isset($val_item) && $val_item['single_item'] == 2) {
             <?php return; ?>
         <?php endif; ?>
 
+        <?php echo $dish_data['photo'] ?>
+        
         <div class="food-photo-container">
-            <img src="upload/<?php echo $dish_data['photo']; ?>">
+            <img src="<?php echo websiteUrl() ?>/upload/<?php //echo $dish_data['photo']; ?>">
         </div>
 
         <div class="flex text-left flex--justify-between flex--align-center flex--inner space-top--xs">
@@ -53,7 +55,10 @@ if (isset($val_item) && $val_item['single_item'] == 2) {
             </div>
             <div class="orange-text">
                 <strong><?php echo t("Rs") ?></strong>
-                <span class="is-heading "><?php echo current(json_decode($dish_data['price']))  ?></span>
+                <span class="is-heading ">
+                    <?php echo gettype($dish_data['price']) == 'string' ? $dish_data['price'] : '' ?>    
+                <?php //echo current(json_decode($dish_data['price']))  ?>
+                </span>
             </div>
         </div>
 

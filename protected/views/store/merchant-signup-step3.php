@@ -18,7 +18,7 @@ if (isset($_POST['item_name'])) {
 		':theis' => isset($_POST['item_serve']) ? $_POST['item_serve'] : '',
 		':theit' => isset($_POST['item_mt']) ? $_POST['item_mt'] : '',
 		':theiq' => isset($_POST['item_quantity']) ? $_POST['item_quantity'] : '',
-		':theiot' => isset($_POST['item_order_time']) ? $_POST['item_order_time'] : ''		
+		':theiot' => isset($_POST['item_order_time']) ? $_POST['item_order_time'] : ''	
 	);
 
 	$command = Yii::app()->db->createCommand($sql);

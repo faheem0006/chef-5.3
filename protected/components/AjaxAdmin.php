@@ -616,7 +616,7 @@ if (!class_exists('AjaxAdmin')) {
 			       LIMIT 0,1
 			";
 			if ($res = $this->rst($stmt)) {
-				if ($res[0]['status'] == "active" || $res[0]['status'] == "expired") {
+				if ($res[0]['status'] == "active" || $res[0]['status'] == "approved" || $res[0]['status'] == "expired") {
 					//Yii::app()->request->cookies['kr_merchant_user'] = new CHttpCookie('kr_merchant_user', json_encode($res));
 					$_SESSION['kr_merchant_user'] = json_encode($res);
 
@@ -680,7 +680,7 @@ if (!class_exists('AjaxAdmin')) {
 			";
 			if ($res = $this->rst($stmt)) {
 				//dump($res);
-				if ($res[0]['status'] == "active" || $res[0]['status'] == "expired") {
+				if ($res[0]['status'] == "active" || $res[0]['status'] == "approved" || $res[0]['status'] == "expired") {
 					//Yii::app()->request->cookies['kr_merchant_user'] = new CHttpCookie('kr_merchant_user', json_encode($res));					
 					$mt_id = $res[0]['merchant_id'];
 					if ($merchant_info = Yii::app()->functions->getMerchant($mt_id)) {

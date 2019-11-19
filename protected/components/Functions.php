@@ -66,7 +66,7 @@ class Functions extends CApplicationComponent
 	{						
 		$is_login=FALSE;						
 		if (!empty($_SESSION['kr_merchant_user'])){
-			$user=json_decode($_SESSION['kr_merchant_user']);									
+			$user=json_decode($_SESSION['kr_merchant_user'], true);									
 			if (is_numeric($user[0]->merchant_id)){
 				$is_login=TRUE;
 			}
