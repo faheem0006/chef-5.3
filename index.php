@@ -48,7 +48,7 @@
 
 define('YII_ENABLE_ERROR_HANDLER', false);
 define('YII_ENABLE_EXCEPTION_HANDLER', false);
-ini_set("display_errors", false);
+ini_set("display_errors", true);
 ini_set("max_execution_time", 300);
 //error_reporting(E_ALL & ~E_NOTICE);
 

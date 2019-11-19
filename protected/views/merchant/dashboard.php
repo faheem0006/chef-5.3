@@ -155,7 +155,7 @@
         <div class="flex flex--align-center">
             <span class="font-bold space-right"><?php echo t("Your Chef Average Score: ") ?></span>
             <div class="progress--circle progress--25">
-                <div class="progress__number">0%</div>
+                <div class="progress__number"><?php echo t('10%') ?></div>
             </div>
         </div>
     </div>

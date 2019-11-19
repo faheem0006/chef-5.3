@@ -5899,7 +5899,7 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 									//dump($res);
 									foreach ($res as $val) {
 										$new = '';
-										$action = "<a merchant-id=\"". $merchant_id ."\" data-id=\"" . $val['order_id'] . "\" class=\"btnn btn--raised \" href=\"javascript:\">" . Yii::t("default", "In Progress") . "</a>";
+										$action = "<a merchant-id=\"". $merchant_id ."\" data-id=\"" . $val['order_id'] . "\" class=\"btnn btn--raised \" href=\"javascript:\">" . Yii::t("default", "Start Cooking") . "</a>";
 										//$action .= "<a data-id=\"" . $val['order_id'] . "\" class=\"view-receipt\" href=\"javascript:\">" . Yii::t("default", "Viewsss") . "</a>";
 										//$action .= "<a data-id=\"" . $val['order_id'] . "\" class=\"view-order-history\" href=\"javascript:\">" . Yii::t("default", "History") . "</a>";
 
