@@ -2,22 +2,23 @@
 
 if (isset($_POST['item_name'])) {
 
-	$sql = "INSERT INTO mt_item(merchant_id, item_name, photo, item_description, category, price, discount, item_serve, item_mt, item_quantity, item_order_time, gallery_photo) 
-	VALUES (:themid, :thein, :theph, :theid, :thec, :thep, :thed, :theis, :theit, :theiq, :theiot, :gp)";
+	$sql = "INSERT INTO mt_item(merchant_id, item_name, ingredients, photo, status, item_description, category, price, discount, item_serve, item_mt, item_quantity, item_order_time, gallery_photo) 
+	VALUES (:themid, :thein, :theingr, :theph, :thest, :theid, :thec, :thep, :thed, :theis, :theit, :theiq, :theiot, :gp)";
 
 	$params = array(
 		':themid' => isset($_POST['merchant_id']) ? $_POST['merchant_id'] : '',
 		':thein' => isset($_POST['item_name']) ? $_POST['item_name'] : '',
-		':theph' => isset($_POST['item_image_primary']) ? $_POST['item'] : '',
+		':theingr' => isset($_POST['ingredients']) ? json_encode($_POST['ingredients']) : '',
+		':theph' => isset($_POST['item_image_primary']) ? $_POST['item_image_primary'] : '',
+		':thest' => 'publish',
 		':theid' => isset($_POST['item_description']) ? $_POST['item_description'] : '',
-		':thec' => isset($_POST['item_category']) ? $_POST['item_category'] : '',
+		':thec' => isset($_POST['category']) ? json_encode($_POST['category']) : '',
 		':thep' => isset($_POST['item_price']) ? $_POST['item_price'] : '',
 		':thed' => isset($_POST['item_discount']) ? $_POST['item_discount'] : '',
 		':theis' => isset($_POST['item_serve']) ? $_POST['item_serve'] : '',
 		':theit' => isset($_POST['item_mt']) ? $_POST['item_mt'] : '',
 		':theiq' => isset($_POST['item_quantity']) ? $_POST['item_quantity'] : '',
-		':theiot' => isset($_POST['item_order_time']) ? $_POST['item_order_time'] : '',
-		':gp' => isset($_POST['item_image_secondary']) ? $_POST['item_image_secondary'] : ''
+		':theiot' => isset($_POST['item_order_time']) ? $_POST['item_order_time'] : ''		
 	);
 
 	$command = Yii::app()->db->createCommand($sql);
