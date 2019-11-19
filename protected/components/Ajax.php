@@ -2772,58 +2772,7 @@ $this->msg=t("We have sent bank information instruction to your email")." :$merc
 	    	$this->otableOutput($feed_data);
 	    }     	    
 	    $this->otableNodata();	
-	}
-	
-	public function addDish()
-	{		
-		
-	   $p = new CHtmlPurifier();
-		
-	   $Validator=new Validator;
-		$req=array(
-		  'dish_name'=>Yii::t("default","Dish name is required"),
-		  'spicydish'=>t("Icon is required")
-		);		
-		$Validator->required($req,$this->data);
-		if ($Validator->validate()){
-			$params=array(
-			  'dish_name'=> $p->purify($this->data['dish_name']) ,
-			  'photo'=>$this->data['spicydish'],
-			  'status'=>$p->purify($this->data['status']),
-			  'date_created'=>FunctionsV3::dateNow(),
-			  'ip_address'=>$_SERVER['REMOTE_ADDR']
-			);			
-		   if (empty($this->data['id'])){	
-		    	if ( $this->insertData("{{dishes}}",$params)){
-		    		    $this->details=Yii::app()->db->getLastInsertID();
-			    		$this->code=1;
-			    		$this->msg=Yii::t("default","Successful");				    		
-			    	}
-			    } else {		    	
-			    	unset($params['date_created']);
-					$params['date_modified']=FunctionsV3::dateNow();
-					
-					$filename_to_delete='';
-					if($old_data=Yii::app()->functions->GetDish($this->data['id'])){
-						if($old_data['photo']!=$this->data['spicydish']){
-						   $filename_to_delete=$old_data['photo'];			
-						}			
-					}
-					
-					$res = $this->updateData('{{dishes}}' , $params ,'dish_id',$this->data['id']);
-					if ($res){
-						$this->code=1;
-		                $this->msg=Yii::t("default",'Dish updated');  
-		                
-		                /*DELETE IMAGE*/
-		                if(!empty($filename_to_delete)){
-		                  FunctionsV3::deleteUploadedFile($filename_to_delete);
-		                }
-					    
-				} else $this->msg=Yii::t("default","ERROR: cannot update");
-		    }	
-		} else $this->msg=$Validator->getErrorAsHTML();	
-	}
+	}	
 	
 	public function addVoucherNew()
 	{					

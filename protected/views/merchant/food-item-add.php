@@ -386,11 +386,11 @@
 
 				<fieldset>
 					<div class="form-group">
-						<label for="" class="is-title-lg"><?php echo t("How many people does one serving of your dish feed? *")?></label>
+						<label for="" class="is-title-lg"><?php echo t("How many people does one serving of your dish feed? *") ?></label>
 						<input type="number" id="item_serve" name="item_serve" onfocus="DishTip.activate('tip3-1')" onblur="DishTip.deActivate()" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="" class="is-title-lg"><?php echo t("What is the measurement type and quantity of this dish?")?></label>
+						<label for="" class="is-title-lg"><?php echo t("What is the measurement type and quantity of this dish?") ?></label>
 						<div class="flex">
 							<input type="number" id="item_quantity" name="item_quantity" class="form-control" name="dishPeople" />
 							<select onfocus="DishTip.activate('tip3-2')" onblur="DishTip.deActivate()" class="space-left" id="item_mt" name="item_mt">
@@ -813,13 +813,13 @@
 
 	document.querySelector('#forms').addEventListener('submit', function() {
 		return false;
-		if( /redirect/.test(window.location.href) ){
+		if (/redirect/.test(window.location.href)) {
 			var timeout = setTimeout(function() {
-			if ( /redirect/.test(window.location.href) ) {
-				window.location.href = "<?php echo websiteUrl() . '/merchantsignup?do=step4' ?>";
-				clearTimeout(timeout);
-			}
-		}, 1500);	
+				if (/redirect/.test(window.location.href)) {
+					window.location.href = "<?php echo websiteUrl() . '/merchantsignup?do=step4' ?>";
+					clearTimeout(timeout);
+				}
+			}, 1500);
 		}
 	});
 </script>

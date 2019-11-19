@@ -1386,7 +1386,7 @@ if (!class_exists('AjaxAdmin')) {
 					$this->msg = Yii::t("default", 'Item added.');
 				} else $this->msg = Yii::t("default", 'ERROR. cannot insert data.');
 			}
-		}
+		}		
 
 		public function FoodItemList()
 		{
@@ -7412,11 +7412,13 @@ $params['cart_tip_value']=isset($this->data['cart_tip_value'])?$this->data['cart
 
 										//AUTO ADD SIZE
 										FunctionsV3::autoAddSize($mtid);
+										
+										$merchant_details = FunctionsV3::getMerchantDetails($mtid);
 
 										$this->code = 1;
 										$this->msg = Yii::t("default", "Successful");
 										$this->details = $token;
-
+										
 										FunctionsV3::NotiNewMerchantSignup($params, 'membership');
 
 										// send email activation key

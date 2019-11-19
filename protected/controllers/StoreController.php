@@ -418,6 +418,7 @@ class StoreController extends CController
 					if (isset($_GET['internal-token'])) {
 						$_GET['token'] = $_GET['internal-token'];
 					}
+					//header("Location: " . websiteUrl() . '/dishAdd');
 					$this->render('merchant-signup-step3', array(
 						'merchant' => Yii::app()->functions->getMerchantByToken($_GET['token']),
 						'package_id' => $package_id,
@@ -4601,6 +4602,11 @@ class StoreController extends CController
 	}
 
 	public function actionShowplan()
+	{
+		$this->render('show_plan');
+	}
+	
+	public function actionDishAdd()
 	{
 		$this->render('show_plan');
 	}

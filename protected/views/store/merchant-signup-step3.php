@@ -1,5 +1,42 @@
+<?php
+
+if (isset($_POST['item_name'])) {
+
+	$sql = "INSERT INTO mt_item(merchant_id, item_name, photo, item_description, category, price, discount, item_serve, item_mt, item_quantity, item_order_time, gallery_photo) 
+	VALUES (:themid, :thein, :theph, :theid, :thec, :thep, :thed, :theis, :theit, :theiq, :theiot, :gp)";
+
+	$params = array(
+		':themid' => isset($_POST['merchant_id']) ? $_POST['merchant_id'] : '',
+		':thein' => isset($_POST['item_name']) ? $_POST['item_name'] : '',
+		':theph' => isset($_POST['item_image_primary']) ? $_POST['item'] : '',
+		':theid' => isset($_POST['item_description']) ? $_POST['item_description'] : '',
+		':thec' => isset($_POST['item_category']) ? $_POST['item_category'] : '',
+		':thep' => isset($_POST['item_price']) ? $_POST['item_price'] : '',
+		':thed' => isset($_POST['item_discount']) ? $_POST['item_discount'] : '',
+		':theis' => isset($_POST['item_serve']) ? $_POST['item_serve'] : '',
+		':theit' => isset($_POST['item_mt']) ? $_POST['item_mt'] : '',
+		':theiq' => isset($_POST['item_quantity']) ? $_POST['item_quantity'] : '',
+		':theiot' => isset($_POST['item_order_time']) ? $_POST['item_order_time'] : '',
+		':gp' => isset($_POST['item_image_secondary']) ? $_POST['item_image_secondary'] : ''
+	);
+
+	$command = Yii::app()->db->createCommand($sql);
+
+
+	if ($res = $command->execute($params)) {
+		return "Done!";
+	} else {
+		return false;
+	}
+}
+
+?>
+
+<div id="navbar-offset"></div>
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
 <style>
 	.btnn {
 		font-size: 1.25rem !important
@@ -212,504 +249,300 @@
 	}
 </style>
 
-<div id="navbar-offset"></div>
 
-<?php
-/*PROGRESS ORDER BAR*/
-$this->renderPartial('/front/progress-merchantsignup', array(
-	'step' => 3,
-	'show_bar' => true
-));
+<div class="spacer"></div>
 
-?>
+<div id="error-message-wrapper"></div>
 
-<div class="sections section-grey2 section-orangeform section-merchant-payment">
+<?php if (isset($merchant)): ?>
+
 
 	<div class="container">
+		<h2 class="is-title-lg"><strong>Dish Listing Form</strong></h2>
+		<div class="row">
+			<div class="col-md-8 z-elevation-2 has-padding">
+				<form class="uk-form uk-form-horizontal forms" id="forms">
+					<?php echo CHtml::hiddenField('id', isset($_GET['id']) ? $_GET['id'] : ""); ?>
+					<?php if (!isset($_GET['id'])) : ?>
+						<?php echo CHtml::hiddenField("redirect", Yii::app()->request->baseUrl . "/merchant/FoodItem/Do/Add") ?>
+					<?php endif; ?>
+					<input type="hidden" name="merchant_id" id="merchant_id" value="<?php echo $merchant['merchant_id'] ?>" />
 
-		<div class="row top30">
-			<div class="inner">
-				<div class="box-grey rounded center">
+					<?php
+						$addon_item = '';
+						$price = '';
+						$category = '';
+						$cooking_ref_selected = '';
+						$multi_option_Selected = '';
+						$multi_option_value_selected = '';
+						$ingredients_selected = '';
+						$data = array();
 
-					<?php if ($merchant) : ?>
-						<?php
-							$merchant_id = $merchant['merchant_id'];
-							if ($renew == TRUE) {
-								$merchant['package_price'] = 1;
+						if (isset($_GET['id'])) {
+							if (!$data = Yii::app()->functions->getFoodItem2($_GET['id'])) {
+								echo "<div class=\"uk-alert uk-alert-danger\">" .
+									Yii::t("default", "Sorry but we cannot find what your are looking for.") . "</div>";
+								return;
 							}
+							$addon_item = isset($data['addon_item']) ? (array) json_decode($data['addon_item']) : false;
+							$category = isset($data['category']) ? (array) json_decode($data['category']) : false;
+							$price = isset($data['price']) ? (array) json_decode($data['price']) : false;
+							$cooking_ref_selected = isset($data['cooking_ref']) ? (array) json_decode($data['cooking_ref']) : false;
+							$multi_option_Selected = isset($data['multi_option']) ? (array) json_decode($data['multi_option']) : false;
+							$multi_option_value_selected = isset($data['multi_option_value']) ? (array) json_decode($data['multi_option_value']) : false;
+
+							$ingredients_selected = isset($data['ingredients']) ? (array) json_decode($data['ingredients']) : false;
+
+							$two_flavors_position = isset($data['two_flavors_position']) ? (array) json_decode($data['two_flavors_position']) : false;
+							//dump($two_flavors_position);
+
+							$require_addon = isset($data['require_addon']) ? (array) json_decode($data['require_addon']) : false;
+						}
+
+						//echo CHtml::hiddenField('merchant_tax', $merchant_tax);
+						?>
+
+
+					<?php
+						Yii::app()->functions->data = 'list';
+						$addon_list = Yii::app()->functions->getAddOnList(Yii::app()->functions->getMerchantID());
+						?>
+					<!-- progressbar -->
+					<ul id="progressbar">
+						<li class="active">About Dish</li>
+						<li>Dish Details</li>
+						<li>QTY & Serving</li>
+						<li>Order Time</li>
+						<li>Add Dish Photo</li>
+					</ul>
+
+					<!-- fieldsets -->
+					<fieldset>
+						<label class="is-title-lg"><?php echo Yii::t("default", "What do you call your dish? *") ?></label>
+						<?php echo CHtml::textField(
+								'item_name',
+								isset($data['item_name']) ? $data['item_name'] : "",
+								array(
+									'class' => 'form-control',
+									'data-validation' => "required",
+									'placeholder' => 'Tomato Rosemary Chicken Spaghetti.',
+									'onfocus' => "DishTip.activate('tip1-1')",
+									'onblur' => "DishTip.deActivate()"
+								)
+							) ?>
+						<br />
+						<label class="is-title-lg"><?php echo Yii::t("default", "How would you describe your dish? *") ?></label>
+						<div class="uk-form-row form-group">
+							<?php echo CHtml::textArea(
+									'item_description',
+									isset($data['item_description']) ? $data['item_description'] : "",
+									array(
+										'class' => 'form-control',
+										'rows' => '4',
+										'onfocus' => "DishTip.activate('tip1-2')",
+										'onblur' => "DishTip.deActivate()",
+										'placeholder' => "e.g. Basmati rice flavoured with exotic spices and my secret ingredient and layered with chicken and potatoes cooked in a thick, savory and slightly spicy gravy. This is definitely a dish for a special occasion. Mixed well before serving."
+									)
+								) ?>
+						</div>
+						<br />
+						<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
+					</fieldset>
+
+					<fieldset>
+						<?php
+							Yii::app()->functions->data = 'list';
+							// Get Categories
+							$category_list = Yii::app()->functions->getCategoryList();
+							$category = isset($data['category']) ? (array) json_decode($data['category']) : false;
 							?>
 
-						<div class="uk-width-1">
-							<a style="font-size: 1.25rem" href="<?php echo Yii::app()->request->baseUrl; ?>/merchant/FoodItem/Do/Add" class="uk-button"><i class="fa fa-plus"></i> <?php echo Yii::t("default", "Add New") ?></a>
-							<a style="font-size: 1.25rem" href="<?php echo Yii::app()->request->baseUrl; ?>/merchant/FoodItem" class="uk-button"><i class="fa fa-list"></i> <?php echo Yii::t("default", "List") ?></a>
-						</div>
-						
-						<div class="spacer"></div>
-
-						<div id="error-message-wrapper"></div>
-
-						<h2 class="is-title-lg"><strong>Dish Listing Form</strong></h2>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 z-elevation-2 has-padding">
-									<form class="uk-form uk-form-horizontal">
-										
-										<?php
-											$addon_item = '';
-											$price = '';
-											$category = '';
-											$cooking_ref_selected = '';
-											$multi_option_Selected = '';
-											$multi_option_value_selected = '';
-											$ingredients_selected = '';
-											$data = array();
-
-											if (isset($_GET['id'])) {
-												if (!$data = Yii::app()->functions->getFoodItem2($_GET['id'])) {
-													echo "<div class=\"uk-alert uk-alert-danger\">" .
-														Yii::t("default", "Sorry but we cannot find what your are looking for.") . "</div>";
-													return;
-												}
-												$addon_item = isset($data['addon_item']) ? (array) json_decode($data['addon_item']) : false;
-												$category = isset($data['category']) ? (array) json_decode($data['category']) : false;
-												$price = isset($data['price']) ? (array) json_decode($data['price']) : false;
-												$cooking_ref_selected = isset($data['cooking_ref']) ? (array) json_decode($data['cooking_ref']) : false;
-												$multi_option_Selected = isset($data['multi_option']) ? (array) json_decode($data['multi_option']) : false;
-												$multi_option_value_selected = isset($data['multi_option_value']) ? (array) json_decode($data['multi_option_value']) : false;
-
-												$ingredients_selected = isset($data['ingredients']) ? (array) json_decode($data['ingredients']) : false;
-
-												$two_flavors_position = isset($data['two_flavors_position']) ? (array) json_decode($data['two_flavors_position']) : false;
-												//dump($two_flavors_position);
-
-												$require_addon = isset($data['require_addon']) ? (array) json_decode($data['require_addon']) : false;
-											}
-
-											//echo CHtml::hiddenField('merchant_tax', $merchant_tax);
-											?>
-
-
-										<?php
-											Yii::app()->functions->data = 'list';
-											$addon_list = Yii::app()->functions->getAddOnList(Yii::app()->functions->getMerchantID());
-											?>
-										<!-- progressbar -->
-										<ul id="progressbar">
-											<li class="active">About Dish</li>
-											<li>Dish Details</li>
-											<li>QTY & Serving</li>
-											<li>Order Time</li>
-											<li>Add Dish Photo</li>
-										</ul>
-
-										<!-- fieldsets -->
-										<fieldset>
-											<label class="is-title-lg"><?php echo Yii::t("default", "What do you call your dish? *") ?></label>
-											<?php echo CHtml::textField(
-													'item_name',
-													isset($data['item_name']) ? $data['item_name'] : "",
-													array(
-														'class' => 'form-control',
-														'data-validation' => "required",
-														'placeholder' => 'Tomato Rosemary Chicken Spaghetti.',
-														'onfocus' => "DishTip.activate('tip1-1')",
-														'onblur' => "DishTip.deActivate()"
-													)
-												) ?>
-											<br />
-											<label class="is-title-lg"><?php echo Yii::t("default", "How would you describe your dish? *") ?></label>
-											<div class="uk-form-row form-group">
-												<?php echo CHtml::textArea(
-														'item_description',
-														isset($data['item_description']) ? $data['item_description'] : "",
-														array(
-															'class' => 'form-control',
-															'rows' => '4',
-															'onfocus' => "DishTip.activate('tip1-2')",
-															'onblur' => "DishTip.deActivate()",
-															'placeholder' => "e.g. Basmati rice flavoured with exotic spices and my secret ingredient and layered with chicken and potatoes cooked in a thick, savory and slightly spicy gravy. This is definitely a dish for a special occasion. Mixed well before serving."
-														)
-													) ?>
-											</div>
-											<br />
-											<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
-										</fieldset>
-
-										<fieldset>
-											<?php
-												Yii::app()->functions->data = 'list';
-												// Get Categories
-												$category_list = Yii::app()->functions->getCategoryList();
-												$category = isset($data['category']) ? (array) json_decode($data['category']) : false;
-												?>
-
-											<label class="is-title-lg"><?php echo Yii::t("default", "Is your dish a: *") ?></label>
-											<?php
-												Yii::app()->functions->data = 'list';
-												$category_list = Yii::app()->functions->getCategoryList(Yii::app()->functions->getMerchantID());
-												?>
-											<div class="uk-form-row">
-												<?php if (is_array($category_list) && count($category_list) >= 1) : ?>
-													<ul class="uk-list uk-list-striped">
-														<?php foreach ($category_list as $key => $val) : ?>
-															<li>
-																<?php echo CHtml::radioButton(
-																				'category[]',
-																				in_array($key, (array) $category) ? true : false,
-																				array(
-																					'value' => $key,
-																				)
-																			) ?>
-																<?php echo clearString($val); ?>
-															</li>
-														<?php endforeach; ?>
-													</ul>
-												<?php endif; ?>
-											</div>
-
-											<!-- Cusine Here -->
-
-											<label class="space-top is-title-lg space-bottom--sm"><?php echo t("Does your dish have any special features?") ?></label>
-											<?php
-												$ingredients = Yii::app()->functions->getIngredientsList(Yii::app()->functions->getMerchantID());
-												?>
-											<?php if (is_array($ingredients) && count($ingredients) >= 1) : ?>
-												<div class="uk-form-row">
-													<?php if (is_array($ingredients) && count($ingredients) >= 1) : ?>
-														<ul class="uk-list">
-															<?php foreach ($ingredients as $key => $val) : ?>
-																<li>
-																	<?php echo CHtml::checkBox(
-																						'ingredients[]',
-																						in_array($key, (array) $ingredients_selected) ? true : false,
-																						array(
-																							'value' => $key,
-																							'onfocus' => "DishTip.activate('tip2-2')",
-																							'onblur' => "DishTip.deActivate()",
-																						)
-																					) ?>
-																	<span class="space-left--xs"><?php echo ($val); ?></span>
-																</li>
-															<?php endforeach; ?>
-														</ul>
-													<?php endif; ?>
-												</div>
-											<?php endif; ?>
-
-											<br />
-											<hr />
-											<button type="button" name="previous" class="previous action-button-previous btnn btn--raised">Back</button>
-											<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
-										</fieldset>
-
-										<fieldset>
-											<div class="form-group">
-												<label for="" class="is-title-lg"><?php echo t("How many people does one serving of your dish feed? *") ?></label>
-												<input type="number" id="item_serve" name="item_serve" onfocus="DishTip.activate('tip3-1')" onblur="DishTip.deActivate()" class="form-control">
-											</div>
-											<div class="form-group">
-												<label for="" class="is-title-lg"><?php echo t("What is the measurement type and quantity of this dish?") ?></label>
-												<div class="flex">
-													<input type="number" id="item_quantity" name="item_quantity" class="form-control" name="dishPeople" />
-													<select onfocus="DishTip.activate('tip3-2')" onblur="DishTip.deActivate()" class="space-left" id="item_mt" name="item_mt">
-														<option value="None"><?php echo t("None") ?></option>
-														<option value="Dozens"><?php echo t("Dozens") ?></option>
-														<option value="KGs"><?php echo t("KGs") ?></option>
-														<option value="Litres"><?php echo t("Litres") ?></option>
-														<option value="Pounds"><?php echo t("Pounds") ?></option>
-													</select>
-												</div>
-											</div>
-
-											<label for="" class="is-title-lg"><?php echo t("Please select size and price accordingly") ?></label>
-											<?php
-												$size_list = Yii::app()->functions->getSizeList(Yii::app()->functions->getMerchantID());
-												$new_size_list = array();
-												$new_size_list[0] = "";
-												$new_size_list[7] = "Small";
-												$new_size_list[8] = "Medium";
-												$new_size_list[9] = "Large";
-												$size_list = $new_size_list;
-												?>
-											<?php if (is_array($size_list) && count($size_list) >= 1) : ?>
-												<ul class="uk-list price_wrap_parent">
-													<li>
-														<div class="uk-grid">
-															<?php if ($merchant_apply_tax == 1) : ?>
-																<div class="uk-width-1-3"><?php echo Yii::t("default", "Size") ?></div>
-																<div class="uk-width-1-4"><?php echo Yii::t("default", "Price") ?></div>
-																<div class="uk-width-1-4"><?php echo Yii::t("default", "Price With Tax") ?></div>
-																<div class="uk-width-1-4">&nbsp;</div>
-															<?php else : ?>
-																<div class="uk-width-1-3"><?php echo Yii::t("default", "Size") ?></div>
-																<div class="uk-width-1-3"><?php echo Yii::t("default", "Price") ?></div>
-															<?php endif; ?>
-														</div>
-													</li>
-
-													<?php
-															/*dump($size_list); dump($price);
-	dump($merchant_apply_tax);	*/
-															?>
-
-													<?php if (is_array($price) && count($price) >= 1) : ?>
-														<?php $x = 1; ?>
-														<?php foreach ($price as $price_key => $val_price) : ?>
-															<li class="<?php echo $x == count($price) ? "price_wrap" : ""; ?>">
-																<div class="uk-grid">
-
-																	<?php if ($merchant_apply_tax == 1) : ?>
-
-																		<div class="uk-width-1-3">
-																			<?php echo CHtml::dropDownList('size[]', $price_key, $size_list, array('class' => "uk-form-width-medium")) ?>
-																		</div>
-																		<div class="uk-width-1-4">
-																			<?php echo CHtml::textField(
-																									'price[]',
-																									$val_price,
-																									array('class' => 'uk-form-width-medium numeric_only food_price')
-																								) ?>
-																		</div>
-
-																		<div class="uk-width-1-4">
-																			<span class="price_with_tax">
-																				<?php echo standardPrettyFormat($val_price + ($val_price * $merchant_tax)) ?>
-																			</span>
-																		</div>
-
-																		<div class="uk-width-1-6">
-																			<a href="javascript:;" class="removeprice"><i class="fa fa-minus-square"></i></a>
-																		</div>
-
-																	<?php else : ?>
-
-																		<div class="uk-width-1-4">
-																			<?php echo CHtml::dropDownList('size[]', $price_key, $size_list, array('class' => "uk-form-width-medium")) ?>
-																		</div>
-																		<div class="uk-width-1-4">
-																			<?php echo CHtml::textField(
-																									'price[]',
-																									$val_price,
-																									array('class' => 'uk-form-width-medium numeric_only')
-																								) ?>
-																		</div>
-
-																		<div class="uk-width-1-2">
-																			<a href="javascript:;" class="removeprice"><i class="fa fa-minus-square"></i></a>
-																		</div>
-
-																	<?php endif; ?>
-
-																</div>
-															</li>
-															<?php $x++; ?>
-														<?php endforeach; ?>
-													<?php else : ?>
-														<li class="price_wrap">
-															<div class="uk-grid">
-
-																<?php if ($merchant_apply_tax == 1) : ?>
-
-																	<div class="uk-width-1-3">
-																		<?php echo CHtml::dropDownList('size[]', '', $size_list, array('class' => "uk-form-width-medium")) ?>
-																	</div>
-																	<div class="uk-width-1-4">
-																		<?php echo CHtml::textField(
-																							'price[]',
-																							'',
-																							array('class' => 'uk-form-width-medium numeric_only food_price')
-																						) ?>
-																	</div>
-
-																	<div class="uk-width-1-4">
-																		<span class="price_with_tax">&nbsp;</span>
-																	</div>
-
-																	<div class="uk-width-1-6">
-																		<a href="javascript:;" class="removeprice"><i class="fa fa-minus-square"></i></a>
-																	</div>
-
-																<?php else : ?>
-																	<div class="uk-width-1-3">
-																		<?php echo CHtml::dropDownList('size[]', '', $size_list, array('class' => "uk-form-width-medium")) ?>
-																	</div>
-																	<div class="uk-width-1-3">
-																		<?php echo CHtml::textField(
-																							'price[]',
-																							'',
-																							array('class' => 'uk-form-width-medium numeric_only')
-																						) ?>
-																	</div>
-																	<div class="uk-width-1-3">
-																		<a href="javascript:;" class="removeprice"><i class="fa fa-minus-square"></i></a>
-																	</div>
-																<?php endif; ?>
-
-															</div>
-														</li>
-													<?php endif; ?>
-
-													<li>
-														<a href="javascript:;" class="addnewprice"><i class="fa fa-plus-circle"></i></a>
-													</li>
-
-												</ul>
-											<?php else : ?>
-												<p class="uk-text-danger"><?php echo Yii::t("default", "Please add different size in order to add price.") ?></p>
-											<?php endif; ?>
-
-											<label class="is-title-lg"><?php echo Yii::t("default", "How much Discount you are offering? (numeric value)") ?></label>
-											<div class="uk-form-row">
-												<?php echo CHtml::textField(
-														'discount',
-														isset($data['discount']) ? $data['discount'] : "",
-														array(
-															'class' => 'form-control numeric_only'
-														)
-													) ?>
-											</div>
-
-											<br />
-											<hr />
-
-											<button type="button" name="previous" class="previous action-button-previous btnn btn--raised" value="Previous">Back</button>
-											<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
-										</fieldset>
-
-										<fieldset>
-											<label class="space-top is-title-lg space-bottom">
-												<?php echo t("Once you get an order, how much time do you need to prepare the dish? *") ?></label>
-											<div class="form-group flex flex--align-center">
-												<select onfocus="DishTip.activate('tip4-1')" onblur="DishTip.deActivate()" name="item_order_time" id="item_order_time">
-													<option value="1"><?php echo t("1") ?></option>
-													<option value="2"><?php echo t("2") ?></option>
-													<option value="4"><?php echo t("4") ?></option>
-													<option value="6"><?php echo t("6") ?></option>
-													<option value="12"><?php echo t("12") ?></option>
-													<option value="24"><?php echo t("24") ?></option>
-													<option value="48"><?php echo t("48") ?></option>
-												</select>
-												<label for="" class="space-left">Hours</label>
-												<div class="uk-form-row d-none">
-													<label class="uk-form-label"><?php echo Yii::t("default", "Status") ?></label>
-													<?php echo CHtml::dropDownList(
-															'status',
-															'publish',
-															(array) statusList(),
+						<label class="is-title-lg"><?php echo Yii::t("default", "Is your dish a: *") ?></label>
+						<?php
+							Yii::app()->functions->data = 'list';
+							$category_list = Yii::app()->functions->getCategoryList(Yii::app()->functions->getMerchantID());
+							?>
+						<div class="uk-form-row">
+							<?php if (is_array($category_list) && count($category_list) >= 1) : ?>
+								<ul class="uk-list uk-list-striped">
+									<?php foreach ($category_list as $key => $val) : ?>
+										<li>
+											<?php echo CHtml::radioButton(
+															'category[]',
+															in_array($key, (array) $category) ? true : false,
 															array(
-																'class' => 'uk-form-width-medium',
-																'data-validation' => "required"
+																'value' => $key,
 															)
 														) ?>
-												</div>
-											</div>
+											<?php echo clearString($val); ?>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							<?php endif; ?>
+						</div>
 
-											<br />
-											<hr />
-											<button type="button" name="previous" class="previous action-button-previous btnn btn--raised" value="Previous">Back</button>
-											<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
-										</fieldset>
+						<!-- Cusine Here -->
 
-										<fieldset>
-											<label class="space-bottom space-top">Click on the thumbnails below to add pictures of your dish *</label>
-											<div>
-												<label for="" class="space-top space-bottom is-title-lg">Featured Image</label>
-												<!--FEATURED IMAGE-->
-												<div class="uk-form-row">
-													<a href="javascript:void(0)" id="sau_merchant_upload_file" class="button uk-button" data-progress="sau_merchant_progress" data-preview="image_preview" data-field="photo">
-														<img style="height: 120px; width: 150px" src="<?php echo assetsURL() . '/images/dishimgnew.png' ?>" alt="">
-													</a>
-												</div>
-												<div class="sau_merchant_progress"></div>
-												<div class="image_preview">
-													<?php
-														$image = isset($data['photo']) ? $data['photo'] : '';
-														$image_url = FunctionsV3::getImage($image);
-														if (!empty($image_url)) {
-															echo '<img src="' . $image_url . '" class="uk-thumbnail" id="logo-small" />';
-															echo CHtml::hiddenField('photo', $image);
-															echo '<br/>';
-															echo '<a href="javascript:;" class="sau_remove_file" data-preview="image_preview" >' . t("Remove image") . '</a>';
-														}
-														?>
-												</div>
+						<label class="space-top is-title-lg space-bottom--sm"><?php echo t("Does your dish have any special features?") ?></label>
+						<?php
+							$ingredients = Yii::app()->functions->getIngredientsList(Yii::app()->functions->getMerchantID());
+							?>
+						<?php if (is_array($ingredients) && count($ingredients) >= 1) : ?>
+							<div class="uk-form-row">
+								<?php if (is_array($ingredients) && count($ingredients) >= 1) : ?>
+									<ul class="uk-list">
+										<?php foreach ($ingredients as $key => $val) : ?>
+											<li>
+												<?php echo CHtml::checkBox(
+																	'ingredients[]',
+																	in_array($key, (array) $ingredients_selected) ? true : false,
+																	array(
+																		'value' => $key,
+																		'onfocus' => "DishTip.activate('tip2-2')",
+																		'onblur' => "DishTip.deActivate()",
+																	)
+																) ?>
+												<span class="space-left--xs"><?php echo ($val); ?></span>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								<?php endif; ?>
+							</div>
+						<?php endif; ?>
 
-												<!--END FEATURED IMAGE-->
+						<br />
+						<hr />
+						<button type="button" name="previous" class="previous action-button-previous btnn btn--raised">Back</button>
+						<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
+					</fieldset>
 
-
-												<!--GALLERY -->
-												<label for="" class="space-bottom is-title-lg space-top">Supporting Images for Dish</label>
-												<div class="uk-form-row">
-													<a href="javascript:;" id="multiple_upload" class="button uk-button" data-progress="multiple_upload_progress" data-preview="image_multiple_preview" data-field="gallery_photo">
-														<img onclick="DishTip.activate('tip5-2')" style="height: 120px; width: 150px" src="<?php echo assetsURL() . '/images/dishimgnew.png' ?>" alt="">
-													</a>
-												</div>
-												<div class="multiple_upload_progress"></div>
-
-												<div class="image_multiple_preview">
-													<?php
-														$gallery_photo = isset($data['gallery_photo']) ? $data['gallery_photo'] : '';
-														if (!empty($gallery_photo)) {
-															$gallery_photo = json_decode($gallery_photo, true);
-															if (is_array($gallery_photo) && count($gallery_photo) >= 1) {
-																foreach ($gallery_photo as $gallery_photo_val) {
-																	$image_url = FunctionsV3::getImage($gallery_photo_val);
-																	if (!empty($image_url)) {
-																		echo "<div class=\"col\">";
-																		echo '<img src="' . $image_url . '" class="uk-thumbnail"  />';
-																		echo CHtml::hiddenField('gallery_photo[]', $gallery_photo_val);
-																		echo '<a href="javascript:;" class="multiple_remove_image" data-preview="image_multiple_preview" >' . t("Remove image") . '</a>';
-																		echo "</div>";
-																	}
-																}
-															}
-														}
-														?>
-												</div>
-												<div class="clear"></div>
-											</div>
-
-											<br />
-											<hr />
-											<button type="button" name="previous" class="previous action-button-previous btnn btn--raised waves-effect" value="Previous">Back</button>
-											<button type="click" name="save" class="action-button-previous btnn btn--raised waves-effect btn-add-dish-from-signup">Save</button>
-										</fieldset>
-										<input type="hidden" name="status" value="publish" />
-									</form>
-								</div>
-								<div class="col-md-3">
-									<div id="dish-tip-container">
-
-										<div id="tip-1">
-											<div class="dish-tip z-elevation-2" id="tip1">
-												<i class="fa fa-lightbulb-o"></i>
-												<strong class="ml-3">Tip</strong>
-												<p class="space-top" id="tip1-text">
-													Nothing to Show..
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
+					<fieldset>
+						<div class="form-group">
+							<label for="" class="is-title-lg"><?php echo t("How many people does one serving of your dish feed? *") ?></label>
+							<input type="number" id="item_serve" name="item_serve" onfocus="DishTip.activate('tip3-1')" onblur="DishTip.deActivate()" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="" class="is-title-lg"><?php echo t("What is the measurement type and quantity of this dish?") ?></label>
+							<div class="flex">
+								<input type="number" id="item_quantity" name="item_quantity" class="form-control" name="dishPeople" />
+								<select style='width: 100px' class="form-control" onfocus="DishTip.activate('tip3-2')" onblur="DishTip.deActivate()" class="space-left" id="item_mt" name="item_mt">
+									<option value="None"><?php echo t("None") ?></option>
+									<option value="Dozens"><?php echo t("Dozens") ?></option>
+									<option value="KGs"><?php echo t("KGs") ?></option>
+									<option value="Litres"><?php echo t("Litres") ?></option>
+									<option value="Pounds"><?php echo t("Pounds") ?></option>
+								</select>
 							</div>
 						</div>
 
+						<label for="" class="is-title-lg"><?php echo t("What is the price of your dish? *") ?></label>
+						<input class="form-control" type="number" name="price" id="price" />
 
-					<?php endif; ?>
+						<label class="is-title-lg"><?php echo Yii::t("default", "How much Discount you are offering? (numeric value)") ?></label>
+						<div class="uk-form-row">
+							<?php echo CHtml::textField(
+									'discount',
+									isset($data['discount']) ? $data['discount'] : "",
+									array(
+										'class' => 'form-control numeric_only'
+									)
+								) ?>
+						</div>
+
+						<br />
+						<hr />
+
+						<button type="button" name="previous" class="previous action-button-previous btnn btn--raised" value="Previous">Back</button>
+						<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
+					</fieldset>
+
+					<fieldset>
+						<label class="space-top is-title-lg space-bottom">
+							<?php echo t("Once you get an order, how much time do you need to prepare the dish? *") ?></label>
+						<div class="form-group flex flex--align-center">
+							<select style="width: 200px" class="form-control" onfocus="DishTip.activate('tip4-1')" onblur="DishTip.deActivate()" name="item_order_time" id="item_order_time">
+								<option value="1"><?php echo t("1") ?></option>
+								<option value="2"><?php echo t("2") ?></option>
+								<option value="4"><?php echo t("4") ?></option>
+								<option value="6"><?php echo t("6") ?></option>
+								<option value="12"><?php echo t("12") ?></option>
+								<option value="24"><?php echo t("24") ?></option>
+								<option value="48"><?php echo t("48") ?></option>
+							</select>
+							<label for="" class="space-left">Hours</label>
+							<div class="uk-form-row d-none">
+								<label class="uk-form-label"><?php echo Yii::t("default", "Status") ?></label>
+								<?php echo CHtml::dropDownList(
+										'status',
+										'publish',
+										(array) statusList(),
+										array(
+											'class' => 'uk-form-width-medium',
+											'data-validation' => "required"
+										)
+									) ?>
+							</div>
+						</div>
+
+						<br />
+						<hr />
+						<button type="button" name="previous" class="previous action-button-previous btnn btn--raised" value="Previous">Back</button>
+						<button type="button" name="next" class="next action-button btnn btn--raised waves-effect waves-light">Continue</button>
+					</fieldset>
+
+					<fieldset>
+						<label class="space-bottom space-top">Click on the thumbnails below to add pictures of your dish *</label>
+						<div>
+							<label for="" class="space-top space-bottom is-title-lg">Featured Image</label>
+							<!--FEATURED IMAGE-->
+							<div class="uk-form-row">
+								<label for="item_image_primary">
+									<input type="file" id="item_image_primary" name="item_image_primary" style="display: none" />
+									<img id='img-primary' style="height: 120px; width: 150px" src="<?php echo assetsURL() . '/images/dishimgnew.png' ?>" alt="">
+								</label>
+							</div>
+							<!--END FEATURED IMAGE-->
 
 
-				</div>
-				<!--box-grey-->
+							<!--GALLERY -->
+							<label for="" class="space-bottom is-title-lg space-top">Supporting Images for Dish</label>
+							<div class="uk-form-row">
+								<label for="item_image_secondary">
+									<input type="file" multiple style="display: none" id="item_image_secondary" name="item_image_secondary" />
+									<img id="img-secondary" onclick="DishTip.activate('tip5-2')" style="height: 120px; width: 150px" src="<?php echo assetsURL() . '/images/dishimgnew.png' ?>" alt="">
+								</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+
+						<br />
+						<hr />
+						<button type="button" name="previous" class="previous action-button-previous btnn btn--raised waves-effect" value="Previous">Back</button>
+						<button type="button" name="save" class="previous action-button-previous btn-dish btnn btn--raised waves-effect">Save</button>
+					</fieldset>
+					<input type="hidden" name="status" value="publish" />
+				</form>
 			</div>
-			<!--inner-->
+			<div class="col-md-3">
+				<div id="dish-tip-container">
+
+					<div id="tip-1">
+						<div class="dish-tip z-elevation-2" id="tip1">
+							<i class="fa fa-lightbulb-o"></i>
+							<strong class="ml-3">Tip</strong>
+							<p class="space-top" id="tip1-text">
+								Nothing to Show..
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<!--row-->
-
 	</div>
-	<!--container-->
 
-</div>
-<!--sections-->
+<?php else : ?>
+	<h1><?php echo t("Error!") ?></h1>
+<?php endif; ?>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -807,7 +640,6 @@ $this->renderPartial('/front/progress-merchantsignup', array(
 
 	});
 
-	document.getElementById('chef-profile').style.maxWidth = '1100px';
 	var DishTip = (function() {
 		var theSection = '#dish-tip-container',
 			tips = {
@@ -845,4 +677,64 @@ $this->renderPartial('/front/progress-merchantsignup', array(
 			};
 		});
 	})();
+
+
+
+
+	$(document).on('click', '.btn-dish', function() {
+		var form = $('#forms').serialize();
+		console.log(form);
+		alert();
+		$.ajax({
+			type: "POST",
+			data: form,
+			url: "<?php echo Yii::app()->request->url ?>",
+			success: function(data) {
+				console.log('Added!');
+				busy(false);
+				window.location.href = sites_url + "/merchantsignup?do=step4";
+			},
+			error: function() {
+				//debugger;
+				console.log("Error!");
+				busy(false);
+			}
+		});
+	});
+
+
+	$(function() {
+		$('#item_image_primary').change(function() {
+			var input = this;
+			var url = $(this).val();
+			var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+			if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					$('#img-primary').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		});
+	});
+
+
+	$(function() {
+		$('#item_image_secondary').change(function() {
+			var input = this;
+			var url = $(this).val();
+			var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+			if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					$('#img-secondary').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		});
+	});
 </script>
+
+<br><br>

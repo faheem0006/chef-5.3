@@ -40,6 +40,24 @@ class FunctionsV3
 		return false;
 	}
 	
+	public static function getMerchantDetails($merchant_id='')
+	{
+		$q = FunctionsV3::q($merchant_id);
+		$DbExt = new DbExt;
+		$stmt = "
+		SELECT	*
+		FROM 
+		{{merchant}}
+		WHERE
+		merchant_id = " . $merchant_id . "
+		";
+		//dump($stmt);
+		if ($res = $DbExt->rst($stmt)) {
+			return $res[0];
+		}
+		return false;
+	}
+	
 	public static function getMerchantDishProgressFlag($merchant_id='')
 	{
 		$q = FunctionsV3::q($merchant_id);

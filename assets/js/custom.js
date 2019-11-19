@@ -60,11 +60,11 @@ $(document).ready(function () {
     //     }, 300);
     // };
 
-    $('#btn-scroll-top').on('click', function () {
-        $('html, body').animate({
-            scrollTop: 0
-        }, 'slow');
-    });
+    // $('#btn-scroll-top').on('click', function () {
+    //     $('html, body').animate({
+    //         scrollTop: 0
+    //     }, 'slow');
+    // });
 
     $('#btnCart').on('click', function () {
         if ($('#menu-right-content').hasClass('is-active')) {

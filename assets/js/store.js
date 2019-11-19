@@ -827,7 +827,7 @@ jQuery(document).ready(function () {
 		var ul = parent.find("ul");
 		ul.slideToggle("fast");
 	});
-
+	
 	$(document).on('click', '.btn-add-dish-from-signup', function () {
 		var params = $('#frm_food_add').serialize();
 		alert();
@@ -850,7 +850,8 @@ jQuery(document).ready(function () {
 			}
 		});
 	});
-
+	
+	
 	$(document).on("click", ".menu-item", function () {
 
 		/*if ( !$(".order-list-wrap").exists()){
@@ -1004,7 +1005,7 @@ jQuery(document).ready(function () {
 		var parent = $(this).parent().parent();
 		var child = parent.find(".addon_qty");
 		var qty = parseFloat(child.val()) + 1;
-		if (isNaN(qty) {
+		if (isNaN(qty)) {
 			qty = 1;
 		}
 		dump("qty=>" + qty);
