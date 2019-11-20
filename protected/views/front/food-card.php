@@ -54,7 +54,7 @@ if (isset($val_item) && $val_item['single_item'] == 2) {
             <div class="orange-text">
                 <strong><?php echo t("Rs") ?></strong>
                 <span class="is-heading ">
-                    <?php echo gettype($dish_data['price']) == 'string' ? $dish_data['price'] : '' ?>    
+                    <?php echo gettype($dish_data['price']) == 'string' ? FunctionsV3::getItemFirstPrice(json_decode($dish_data['price'])) : '' ?>    
                 <?php //echo current(json_decode($dish_data['price']))  ?>
                 </span>
             </div>
@@ -99,7 +99,7 @@ if (isset($val_item) && $val_item['single_item'] == 2) {
             </a>
         <?php else : ?>
             <a href="javascript:;" class="dsktop btnn btn--block food-chef-footer btn--raised inline rounded3 menu-item" rel="<?php echo $dish_data['item_id'] ?>" <?php echo $atts; ?> data-category_id="<?php echo (int) $dish_data['category'] ?>" id="btnAddToCart">
-                <?php echo t('Add to Cartt') ?>
+                <?php echo t('Add to Cart') ?>
             </a>
         <?php endif; ?>
     </div>

@@ -22,6 +22,25 @@ class FunctionsV3
 		return false;
 	}
 	
+	public static function getMerchantOrderCount()
+	{
+		$mtid = Yii::app()->functions->getMerchantID();
+		$q = FunctionsV3::q($mtid);
+		$DbExt = new DbExt;
+		$stmt = "
+		SELECT COUNT(*)
+		FROM 
+		mt_order
+		WHERE
+		merchant_id = " . ($mtid) . "
+		";
+		//dump($stmt);
+		if ($res = $DbExt->rst($stmt)) {
+			return $res[0];
+		}
+		return 0;
+	}
+	
 	public static function getMerchantDishTime($merchant_id='')
 	{
 		$q = FunctionsV3::q($merchant_id);

@@ -72,3 +72,12 @@ CREATE TABLE `mt_item_order_time` (
 	`merchant_id`` VARCHAR(100),
 	`dish_ready` VARCHAR(30)
 );
+
+ALTER TABLE `mt_merchant` 
+ADD COLUMN la_carte_service BINARY DEFAULT 1,
+ADD COLUMN daily_special_service BINARY,
+ADD COLUMN meal_plan_service BINARY,
+ADD COLUMN party_service BINARY,
+ADD COLUMN merchant_describe TEXT,
+ADD COLUMN merchant_inspire TEXT,
+ADD COLUMN merchant_speciality VARCHAR(255);

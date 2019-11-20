@@ -84,7 +84,7 @@
           <?php endif; ?>
 
           <div class="uk-form-row">
-            <label class="uk-form-label"><?php echo Yii::t("default", "Your Restaurant phone") ?></label>
+            <label class="uk-form-label"><?php echo Yii::t("default", "Restaurant phone") ?></label>
             <?php echo CHtml::textField(
               'restaurant_phone',
               isset($data['restaurant_phone']) ? $data['restaurant_phone'] : "",
@@ -94,7 +94,7 @@
             ) ?>
           </div>
           <div class="uk-form-row">
-            <label class="uk-form-label"><?php echo Yii::t("default", "Your Contact name") ?></label>
+            <label class="uk-form-label"><?php echo Yii::t("default", "Name") ?></label>
             <?php echo CHtml::textField(
               'contact_name',
               isset($data['contact_name']) ? $data['contact_name'] : "",
@@ -105,7 +105,7 @@
             ) ?>
           </div>
           <div class="uk-form-row">
-            <label class="uk-form-label"><?php echo Yii::t("default", "Your Contact phone") ?></label>
+            <label class="uk-form-label"><?php echo Yii::t("default", "Phone") ?></label>
             <?php echo CHtml::textField(
               'contact_phone',
               isset($data['contact_phone']) ? $data['contact_phone'] : "",
@@ -116,7 +116,7 @@
             ) ?>
           </div>
           <div class="uk-form-row">
-            <label class="uk-form-label"><?php echo Yii::t("default", "Your business email") ?></label>
+            <label class="uk-form-label"><?php echo Yii::t("default", "Email") ?></label>
             <?php echo CHtml::textField(
               'contact_email',
               isset($data['contact_email']) ? $data['contact_email'] : "",
@@ -144,7 +144,7 @@
 
       <li>
         <div class="uk-form-row">
-          <label class="uk-form-label"><?php echo Yii::t("default", "Your Country") ?></label>
+          <label class="uk-form-label"><?php echo Yii::t("default", "Country") ?></label>
           <?php echo CHtml::dropDownList(
             'country_code',
             isset($data['country_code']) ? $data['country_code'] : "",
@@ -156,7 +156,7 @@
         </div>
 
         <div class="uk-form-row">
-          <label class="uk-form-label"><?php echo Yii::t("default", "Your Address") ?></label>
+          <label class="uk-form-label"><?php echo Yii::t("default", "Address") ?></label>
           <?php echo CHtml::textField(
             'street',
             isset($data['street']) ? $data['street'] : "",
@@ -166,7 +166,7 @@
           ) ?>
         </div>
         <div class="uk-form-row">
-          <label class="uk-form-label"><?php echo Yii::t("default", "Your City") ?></label>
+          <label class="uk-form-label"><?php echo Yii::t("default", "City") ?></label>
           <?php echo CHtml::textField(
             'city',
             isset($data['city']) ? $data['city'] : "",
@@ -176,7 +176,7 @@
           ) ?>
         </div>
         <div class="uk-form-row">
-          <label class="uk-form-label"><?php echo Yii::t("default", "Your Post code/Zip code") ?></label>
+          <label class="uk-form-label"><?php echo Yii::t("default", "Zip code") ?></label>
           <?php echo CHtml::textField(
             'post_code',
             isset($data['post_code']) ? $data['post_code'] : "",
@@ -187,7 +187,7 @@
         </div>
 
         <div class="uk-form-row">
-          <label class="uk-form-label"><?php echo Yii::t("default", "Your State/Region") ?></label>
+          <label class="uk-form-label"><?php echo Yii::t("default", "State/Region") ?></label>
           <?php echo CHtml::textField(
             'state',
             isset($data['state']) ? $data['state'] : "",
@@ -198,7 +198,7 @@
         </div>
 
         <div class="uk-form-row">
-          <label class="uk-form-label"><?php echo Yii::t("default", "Your Services") ?>?</label>
+          <label class="uk-form-label"><?php echo Yii::t("default", "Services") ?>?</label>
           <?php echo CHtml::dropDownList(
             'service',
             isset($data['service']) ? $data['service'] : "",

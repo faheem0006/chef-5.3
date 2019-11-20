@@ -23,7 +23,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
             </li>
 
             <li id="tab-orders" class="waves-effect"><i class="ion-ios-book-outline"></i>
-              <span><?php echo t("Order History") ?></span>
+              <span><?php echo t("Your Orders") ?></span>
             </li>
 
             <li class="waves-effect"><i class="ion-ios-bookmarks-outline <?php echo $tabs == 3 ? "active" : '' ?>"></i>
@@ -31,7 +31,7 @@ echo CHtml::hiddenField('mobile_country_code', Yii::app()->functions->getAdminCo
             </li>
 
             <li class="waves-effect"><i class="ion-android-favorite-outline"></i>
-              <span><?php echo t("Favorites") ?></span>
+              <span><?php echo t("Your Favorites Dishes") ?></span>
             </li>
 
             <?php if ($disabled_cc != "yes") : ?>

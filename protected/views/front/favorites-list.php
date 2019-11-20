@@ -2,7 +2,7 @@
 <div class="box-grey rounded section-order-history" style="margin-top:0;">
 
 <div class="bottom10">
-<?php echo FunctionsV3::sectionHeader('Your favorite restaurant');?>
+<?php echo FunctionsV3::sectionHeader('Your favorite Dishes');?>
 </div>
 
 <table class="table table-striped  favorites_list">

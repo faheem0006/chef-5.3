@@ -27,18 +27,24 @@ $placholder_search = Yii::t("default", $placholder_search);
         <h1 id="hero-title"><?php echo t("Order Delicious Food Online..") ?></h1>
         <div id="hero-subtitle" class="text-light"><?php echo t("It's the food you love, delivered") ?></div>
       </div>
-      <div class="flex flex--justify-even flex-dir--col-sm">
-        <a href="<?php echo websiteUrl() . '/searcharea?dailyspecial=all' ?>" class="btnn btn--raised waves-effect waves-light" id="hero-link-1">
-          <span><?php echo t("Daily Specials") ?></span>
-          <i class="fa fa-chevron-circle-right space-left--sm"></i>
+      <div class="flex has-padding-x flex--justify-even flex-dir--col-sm">
+        <a href="<?php echo websiteUrl() . '/searcharea?dailyspecial=all' ?>" class="btnn btn--raised waves-effect waves-light flex flex--dir-col" id="hero-link-1">
+          <div class="hero-main-text">
+            <span><?php echo t("Daily Specials") ?></span>
+          </div>
+          <div class="hero-sub-text"><?php echo t("Order a chef crafted lunch, today or tomorrow") ?></div>
         </a>
-        <a href="<?php echo websiteUrl() . '/searcharea?foodname=all' ?>" class="btnn btn--raised waves-effect waves-light" id="hero-link-2">
-          <span><?php echo t("A La Carte") ?></span>
-          <i class="fa fa-chevron-circle-right space-left--sm"></i>
+        <a href="<?php echo websiteUrl() . '/searcharea?foodname=all' ?>" class="btnn btn--raised waves-effect waves-light flex flex--dir-col" id="hero-link-2">
+          <div class="hero-main-text">
+            <span><?php echo t("A La Carte") ?></span>
+          </div>
+          <div class="hero-sub-text"><?php echo t('Delicious dishes, snacks for every occasion') ?></div>
         </a>
-        <a href="<?php echo websiteUrl() . '/searcharea?mealplans=all' ?>" class="btnn btn--raised waves-effect waves-light" id="hero-link-3">
-          <span><?php echo t("Meal Plans") ?></span>
-          <i class="fa fa-chevron-circle-right space-left--sm"></i>
+        <a href="<?php echo websiteUrl() . '/searcharea?mealplans=all' ?>" class="btnn btn--raised waves-effect waves-light flex flex--dir-col" id="hero-link-3">
+          <div class="hero-main-text">
+            <span><?php echo t("Meal Plans") ?></span>
+          </div>
+          <div class="hero-sub-text"><?php echo t("Order whole week food at once") ?></div>
         </a>
       </div>
     </div>
@@ -97,51 +103,59 @@ $placholder_search = Yii::t("default", $placholder_search);
 <section class="sections" id="why-choose-us">
   <div class="container center has-padding-y">
     <h2><?php echo t("Why You Should Choose Us?") ?></h2>
-    <div class="row row-why-choose-us space-top shadowed o-h">
-      <div class="col-md-6 rounded-top-left flex flex--align-center lg-blue">
-        <div>
-          <img src="<?php echo assetsURL() . '/images/cook.png' ?>" alt="" />
-        </div>
-        <div>
-          <h4><?php echo t("Amazing Chefs") ?></h4>
-          <h5>
-            <?php echo t("You deserve only the best. Our 4-part evaluation system ensures only the best chefs in your city end up on HomeChef.") ?>
-          </h5>
+    <div class="row row-why-choose-us space-top o-h">
+      <div class="col-md-6 rounded-top-left">
+        <div class="flex flex--align-center z-elevation-2 hoverable has-padding">
+          <div>
+            <img src="<?php echo assetsURL() . '/images/cook.png' ?>" alt="" />
+          </div>
+          <div>
+            <h4><?php echo t("Amazing Chefs") ?></h4>
+            <h5>
+              <?php echo t("You deserve only the best. Our 4-part evaluation system ensures only the best chefs in your city end up on HomeChef.") ?>
+            </h5>
+          </div>
         </div>
       </div>
-      <div class="col-md-6 flex flex--align-center rounded-top-right lg-green">
-        <div>
-          <img src="<?php echo assetsURL() . '/images/sink1.png' ?>" alt="" />
-        </div>
-        <div>
-          <h4><?php echo t("Make It Yours") ?></h4>
-          <h5>
-            <?php echo t("Make meals uniquely yours. Upgrade, double-up, add or swap protein on select meals. You’re in control of your dinstiny.") ?>
-          </h5>
+      <div class="col-md-6 rounded-top-right">
+        <div class="flex flex--align-center z-elevation-2 hoverable has-padding">
+          <div>
+            <img src="<?php echo assetsURL() . '/images/sink1.png' ?>" alt="" />
+          </div>
+          <div>
+            <h4><?php echo t("Make It Yours") ?></h4>
+            <h5>
+              <?php echo t("Make meals uniquely yours. Upgrade, double-up, add or swap protein on select meals. You’re in control of your dinstiny.") ?>
+            </h5>
+          </div>
         </div>
       </div>
     </div>
-    <div class="row row-why-choose-us shadowed o-h">
-      <div class="col-md-6 flex flex--align-center rounded-bottom-left lg-purple">
-        <div>
-          <img src="<?php echo assetsURL() . '/images/dish1.png' ?>" alt="" />
-        </div>
-        <div>
-          <h4><?php echo t("Change It Up") ?></h4>
-          <h5>
-            <?php echo t("Add meals. Edit servings. Or take a week off and fly to Tahiti. Plans and preferences change — we keep up.") ?>
-          </h5>
+    <div class="row row-why-choose-us o-h">
+      <div class="col-md-6 rounded-bottom-left">
+        <div class="flex z-elevation-2 hoverable has-padding flex--align-center">
+          <div>
+            <img src="<?php echo assetsURL() . '/images/dish1.png' ?>" alt="" />
+          </div>
+          <div>
+            <h4><?php echo t("Change It Up") ?></h4>
+            <h5>
+              <?php echo t("Add meals. Edit servings. Or take a week off and fly to Tahiti. Plans and preferences change — we keep up.") ?>
+            </h5>
+          </div>
         </div>
       </div>
-      <div class="col-md-6 flex flex--align-center rounded-bottom-right lg-yellow">
-        <div>
-          <img src="<?php echo assetsURL() . '/images/sink1.png' ?>" alt="" />
-        </div>
-        <div>
-          <h4><?php echo t("Get Dinner Done") ?></h4>
-          <h5>
-            <?php echo t("If your routine isn’t quite “routine,” worry not, you’ll find tons of meals that fit your changing schedule and tastes.") ?>
-          </h5>
+      <div class="col-md-6 rounded-bottom-left">
+        <div class="flex flex--align-center z-elevation-2 hoverable has-padding">
+          <div>
+            <img src="<?php echo assetsURL() . '/images/dish1.png' ?>" alt="" />
+          </div>
+          <div>
+            <h4><?php echo t("Change It Up") ?></h4>
+            <h5>
+              <?php echo t("Add meals. Edit servings. Or take a week off and fly to Tahiti. Plans and preferences change — we keep up.") ?>
+            </h5>
+          </div>
         </div>
       </div>
     </div>

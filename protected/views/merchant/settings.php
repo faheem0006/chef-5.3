@@ -57,7 +57,7 @@ $merchant_info = (array) Yii::app()->functions->getMerchantInfo();
     <li class="uk-active"><a href="#"><?php echo Yii::t("default", "About Me") ?></a></li>
     <li><a href="#"><?php echo Yii::t("default", "Orders") ?></a></li>
     <li class=""><a href="#"><?php echo Yii::t("default", "Delivery") ?></a></li>
-    <li class=""><a href="#"><?php echo Yii::t("default", "Holidays") ?></a></li>
+    <li class=""><a href="#"><?php echo Yii::t("default", "My Business Hours") ?></a></li>
   </ul>
 
   <form class="uk-form uk-form-horizontal forms" id="forms">
@@ -210,22 +210,6 @@ $merchant_info = (array) Yii::app()->functions->getMerchantInfo();
       <li>
         <fieldset>
 
-
-          <div class="is-title-lg"><?php echo Yii::t("default", "Timezone") ?></div>
-          <div class="is-title"><?php echo t("You can change your timezone here") ?></div>
-          <br />
-          <div class="uk-form-row">
-            <?php
-            echo CHtml::dropDownList(
-              'merchant_timezone',
-              Yii::app()->functions->getOption("merchant_timezone", $merchant_id),
-              Yii::app()->functions->timezoneList()
-            )
-            ?>
-          </div>
-
-          <br />
-
           <?php $days = Yii::app()->functions->getDays(); ?>
           <div class="is-title-lg"><?php echo Yii::t("default", "Kitchen Hours of Operation ") ?></div>
           <div class="is-title"><?php echo t("Set the days and hours your kitchen is open and meals can be picked up from you") ?></div>
@@ -297,20 +281,6 @@ $merchant_info = (array) Yii::app()->functions->getMerchantInfo();
                 </li>
               <?php endforeach; ?>
             </ul>
-          </div>
-
-          <div class="uk-form-row">
-            <label class="uk-form-label is-title"><?php echo Yii::t("default", "Do you Accept Pre-orders?") ?></label>
-            <?php
-            echo CHtml::checkBox(
-              'merchant_preorder',
-              Yii::app()->functions->getOption("merchant_preorder", $merchant_id) == 1 ? true : false,
-              array(
-                'class' => "icheck",
-                'value' => 1
-              )
-            );
-            ?>
           </div>
 
           <br />
